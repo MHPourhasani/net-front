@@ -1,0 +1,36 @@
+{
+    "name": "net-front",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "prettier": "prettier . --check --cache --write",
+        "prepare": "husky install",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx,html,css,scss,json}": "prettier --write"
+    },
+    "dependencies": {
+        "next": "14.2.3",
+        "prettier-plugin-tailwindcss": "^0.5.14",
+        "react": "^18",
+        "react-dom": "^18"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "eslint": "^8.57.0",
+        "eslint-config-next": "14.2.3",
+        "husky": "^8.0.0",
+        "lint-staged": "^15.2.5",
+        "postcss": "^8",
+        "prettier": "^3.2.5",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    }
+}
