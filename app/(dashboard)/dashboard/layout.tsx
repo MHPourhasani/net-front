@@ -14,9 +14,9 @@ export default function DashboardLayout({
     return (
         <html lang="fa" dir="rtl">
             <body className="flex h-screen w-full items-center justify-center overflow-hidden bg-gray-100">
-                <div className="flex h-[90vh] w-10/12 gap-10">
+                <div className="flex h-[90vh] w-10/12 max-w-[1400px] gap-5">
                     <Sidebar />
-                    <section className="w-full rounded-xl bg-white">{children}</section>
+                    <section className="w-full rounded-xl bg-white p-4">{children}</section>
                 </div>
             </body>
         </html>
