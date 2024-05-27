@@ -15,10 +15,13 @@
         "*.{ts,tsx,js,jsx,html,css,scss,json}": "prettier --write"
     },
     "dependencies": {
+        "clsx": "^2.1.1",
         "next": "14.2.3",
         "prettier-plugin-tailwindcss": "^0.5.14",
         "react": "^18",
-        "react-dom": "^18"
+        "react-dom": "^18",
+        "react-toastify": "^10.0.5",
+        "tailwind-merge": "^2.3.0"
     },
     "devDependencies": {
         "@types/node": "^20",

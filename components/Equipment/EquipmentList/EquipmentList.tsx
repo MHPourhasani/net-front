@@ -1,9 +1,11 @@
 "use client";
-import SearchIcon from "@/assets/icons/component/searchIcon";
+import SearchIcon from "@/assets/icons/component/SearchIcon";
 import Input from "@/components/common/Input/Input";
 import { useEffect, useState } from "react";
 import { IEquipment } from "@/interface/general";
 import EquipmentItem from "../EquipmentItem/EquipmentItem";
+import { toastMessage } from "@/utils/toastMessage";
+import { toast } from "react-toastify";
 
 interface Props {
     equipment: IEquipment[];
@@ -16,6 +18,11 @@ const EquipmentList = ({ equipment }: Props) => {
     useEffect(() => {
         setFilteredBreakdowns(equipment.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
     }, [search]);
+
+    const deleteEquipmentHandler = (id: string) => {
+        console.log(id);
+        toast.success(toastMessage(4));
+    };
 
     return (
         <div className="flex flex-col gap-4">
@@ -35,7 +42,7 @@ const EquipmentList = ({ equipment }: Props) => {
 
             <div>
                 {filteredBreakdowns.map((item) => (
-                    <EquipmentItem key={item.id} {...item} />
+                    <EquipmentItem key={item.id} {...item} onDelete={() => deleteEquipmentHandler(item.id)} />
                 ))}
             </div>
         </div>

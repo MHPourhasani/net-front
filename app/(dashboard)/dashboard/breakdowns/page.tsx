@@ -1,4 +1,4 @@
-import AddIcon from "@/assets/icons/component/addIcon";
+import AddIcon from "@/assets/icons/component/AddIcon";
 import BreakdownsList from "@/components/Breakdowns/BreakdownsList/BreakdownsList";
 import { PATH } from "@/utils/path";
 import Link from "next/link";
@@ -17,7 +17,17 @@ const Breakdowns = () => {
                 </Link>
             </div>
 
-            <BreakdownsList breakdowns={[{ id: "1", name: "sdfsdfd123", description: "dhsdhghudfgfddg", created_at: 147852369 }]} />
+            <BreakdownsList
+                breakdowns={[
+                    {
+                        id: "1",
+                        name: "sdfsdfd123",
+                        description: "dhsdhghudfgfddg",
+                        created_at: 147852369,
+                        status: "OPEN"
+                    }
+                ]}
+            />
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Toastify from "@/components/Toastify/Toastify";
 
 export const metadata: Metadata = {
     title: "NET App",
@@ -13,6 +14,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="fa" dir="rtl">
+            <Toastify />
             <body className="flex h-screen w-full items-center justify-center overflow-hidden bg-gray-100">{children}</body>
         </html>
     );
