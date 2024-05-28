@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: Vazirmatn;
+    font-style: normal;
+    font-weight: bold;
+    src: url("../assets/fonts/Vazirmatn-RD-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Vazirmatn;
+    font-style: normal;
+    font-weight: normal;
+    src: url("../assets/fonts/Vazirmatn-RD-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Vazirmatn;
+    font-style: normal;
+    font-weight: 500;
+    src: url("../assets/fonts/Vazirmatn-RD-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Vazirmatn;
+    font-style: normal;
+    font-weight: 600;
+    src: url("../assets/fonts/Vazirmatn-RD-SemiBold.ttf") format("truetype");
+}
+
+body {
+    font-family: Vazirmatn !important;
+}
