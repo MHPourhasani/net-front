@@ -1,6 +1,8 @@
 "use client";
+import { API } from "@/utils/api";
 import { PATH } from "@/utils/path";
 import { sidebarItems } from "@/utils/sidebarItems";
+import { authToken } from "@/utils/storage";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -9,8 +11,19 @@ const Sidebar = () => {
     const pathname = usePathname();
     let isActive = false;
 
-    const logoutHandler = () => {
-        router.replace(PATH.login);
+    const logoutHandler = async () => {
+        try {
+            await fetch(API.profile.logout(), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify({ refresh: authToken.get()?.refresh })
+            });
+            authToken.remove();
+            router.replace(PATH.login);
+        } catch (error) {}
     };
 
     return (

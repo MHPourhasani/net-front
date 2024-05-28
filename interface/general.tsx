@@ -14,28 +14,37 @@ export interface IIconProps {
     className?: string;
 }
 
-export enum BreakdownStatusEnum {
+export enum EmergencyStatusEnum {
     OPEN = "OPEN",
     PENDING = "PENDING",
     CLOSE = "CLOSE"
 }
 
-export type BreakdownStatusType = "OPEN" | "PENDING" | "CLOSE";
+export type EmergencyStatusType = "OPEN" | "PENDING" | "CLOSE";
 
 export interface IEquipment {
-    id: string;
-    image?: string;
+    id: number;
+    created_at: string;
+    expire: string;
+    code_equip: string;
+    representation_unit: string;
+    representation_code: string;
+    representation_period: number;
+    state_code: string;
     name: string;
-    created_at: number;
-    updated_at?: number;
+    equipment_model: string;
+    country: string;
+    image: string;
 }
 
-export interface IBreakdown {
+export interface IEmergency {
     id: string;
     image?: string;
     name: string;
-    status: BreakdownStatusType;
+    status: EmergencyStatusType;
     description: string;
     created_at: number;
     updated_at?: number;
 }
+
+export type TOption = IEquipment;

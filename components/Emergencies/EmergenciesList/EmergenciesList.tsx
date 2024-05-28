@@ -1,22 +1,22 @@
 "use client";
-import BreakdownsItem from "../BreakdownsItem/BreakdownsItem";
+import EmergencyItem from "../EmergencyItem/EmergencyItem";
 import Input from "@/components/common/Input/Input";
 import { useEffect, useState } from "react";
-import { IBreakdown } from "@/interface/general";
+import { IEmergency } from "@/interface/general";
 import SearchIcon from "@/assets/icons/component/SearchIcon";
 import { toast } from "react-toastify";
 import { toastMessage } from "@/utils/toastMessage";
 
 interface Props {
-    breakdowns: IBreakdown[];
+    emergencies: IEmergency[];
 }
 
-const BreakdownsList = ({ breakdowns }: Props) => {
+const EmergenciesList = ({ emergencies }: Props) => {
     const [search, setSearch] = useState("");
-    const [filteredBreakdowns, setFilteredBreakdowns] = useState(breakdowns);
+    const [filteredEmergencies, setFilteredEmergencies] = useState(emergencies);
 
     useEffect(() => {
-        setFilteredBreakdowns(breakdowns.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        setFilteredEmergencies(emergencies.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
     }, [search]);
 
     const deleteBreakdownHandler = (id: string) => {
@@ -41,12 +41,14 @@ const BreakdownsList = ({ breakdowns }: Props) => {
             </div>
 
             <div>
-                {filteredBreakdowns.map((item) => (
-                    <BreakdownsItem key={item.id} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />
-                ))}
+                {filteredEmergencies.length ? (
+                    filteredEmergencies.map((item) => <EmergencyItem key={item.id} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />)
+                ) : (
+                    <p>خرابی وجود ندارد.</p>
+                )}
             </div>
         </div>
     );
 };
 
-export default BreakdownsList;
+export default EmergenciesList;

@@ -1,8 +1,8 @@
-import BreakdownAnswer from "@/components/Breakdowns/BreakdownAnswer/BreakdownAnswer";
+import EmergencyAnswer from "@/components/Emergencies/EmergencyAnswer/EmergencyAnswer";
 import Input from "@/components/common/Input/Input";
 import Textarea from "@/components/common/Textarea/Textarea";
 
-const SingleBreakdown = () => {
+const SingleEmergencyPage = () => {
     return (
         <div className="flex flex-col gap-16">
             <h1 className="text-xl font-bold">جزئیات خرابی {}</h1>
@@ -16,10 +16,10 @@ const SingleBreakdown = () => {
                 </div>
                 <Textarea label="توضیحات" disabled defaultValue="lorermcmmbfcsdfhsdfhffg" />
 
-                <BreakdownAnswer />
+                <EmergencyAnswer />
             </div>
         </div>
     );
 };
 
-export default SingleBreakdown;
+export default SingleEmergencyPage;

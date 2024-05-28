@@ -9,14 +9,15 @@ import { toastMessage } from "../toastMessage";
 import Input from "@/components/common/Input/Input";
 import { PATH } from "../path";
 import Button from "@/components/common/Button/Button";
+import { API } from "../api";
+import { authToken } from "../storage";
 // import { useAppDispatch } from "@/redux/hooks";
 // import { setUser } from "@/redux/slices/authSlice";
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ username: "", password: "" });
     const [formDataError] = useState({ email: "", password: "" });
     const router = useRouter();
-    const redirectParams = useSearchParams().get("redirect");
     // const dispatch = useAppDispatch();
 
     const changeHandler = (e: any) => {
@@ -24,9 +25,21 @@ const Login = () => {
     };
 
     const loginHandler = async () => {
-        const { email, password } = formData;
+        const { username, password } = formData;
 
         try {
+            const res = await fetch(API.profile.login(), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await res.json();
+            authToken.set(data);
+            console.log(data);
+            router.replace(PATH.dashboard);
             toast.success(toastMessage(5));
         } catch (error) {
             console.error(error);
@@ -40,14 +53,13 @@ const Login = () => {
             </div>
 
             <div className="flex w-full items-center justify-center p-4 md:flex-1 md:p-0">
-                <form className="flex w-full flex-col gap-4 md:w-11/12 lg:w-9/12 xl:w-8/12 2xl:w-6/12 2xl:max-w-[600px]">
-                    <h1 className="mb-5 text-3xl font-bold">Login</h1>
+                <div className="flex w-full flex-col gap-4 md:w-11/12 lg:w-9/12 xl:w-8/12 2xl:w-6/12 2xl:max-w-[600px]">
+                    <h1 className="mb-5 text-3xl font-bold">ورود به حساب کاربری</h1>
                     <Input
-                        type="email"
                         label="نام کاربری"
                         name="username"
                         placeholder="example@gmail.com"
-                        value={formData.email}
+                        value={formData.username}
                         onChange={changeHandler}
                         error={formDataError.email}
                     />
@@ -66,7 +78,7 @@ const Login = () => {
                         // disabled={!formData.email || !formData.password || formData.password.length < 8}
                         className="disabled:bg-gray-300"
                     >
-                        Login
+                        ورود به حساب کاربری
                     </Button>
 
                     <div className="flex gap-2">
@@ -75,7 +87,7 @@ const Login = () => {
                             ساخت اکانت جدید
                         </Link>
                     </div>
-                </form>
+                </div>
             </div>
         </section>
     );

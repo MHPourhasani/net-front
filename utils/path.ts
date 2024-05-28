@@ -3,7 +3,7 @@ export const PATH = {
     signup: "/signup",
     dashboard: "/dashboard",
     equipment: "/dashboard/equipment",
-    AddEquipment: "/dashboard/add-equipment",
-    breakdowns: "/dashboard/breakdowns",
-    addBreakdowns: "/dashboard/add-breakdowns"
+    AddEquipment: "/dashboard/equipment/create-equipment",
+    breakdowns: "/dashboard/emergencies",
+    addBreakdowns: "/dashboard/emergencies/create-emergencies"
 };

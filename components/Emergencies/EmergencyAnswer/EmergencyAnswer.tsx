@@ -5,7 +5,7 @@ import { toastMessage } from "@/utils/toastMessage";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const BreakdownAnswer = () => {
+const EmergencyAnswer = () => {
     const [isShowAnswer, setIsShowAnswer] = useState(false);
     const [isDeleteAnswer, setIsDeleteAnswer] = useState(false);
     const [answer, setAnswer] = useState("");
@@ -68,4 +68,4 @@ const BreakdownAnswer = () => {
     );
 };
 
-export default BreakdownAnswer;
+export default EmergencyAnswer;

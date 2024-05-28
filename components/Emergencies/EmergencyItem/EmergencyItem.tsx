@@ -1,15 +1,15 @@
 import OpenEyeIcon from "@/assets/icons/component/OpenEyeIcon";
 import TrashIcon from "@/assets/icons/component/TrashIcon";
 import Badge from "@/components/common/Badge/Badge";
-import { BreakdownStatusEnum, IBreakdown } from "@/interface/general";
+import { EmergencyStatusEnum, IEmergency } from "@/interface/general";
 import { PATH } from "@/utils/path";
 import Link from "next/link";
 
-interface IProps extends IBreakdown {
+interface IProps extends IEmergency {
     onDelete: () => void;
 }
 
-const BreakdownsItem = (props: IProps) => {
+const EmergencyItem = (props: IProps) => {
     return (
         <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-9">
             <p className="col-span-1 text-gray-400">1</p>
@@ -19,7 +19,7 @@ const BreakdownsItem = (props: IProps) => {
             <p className="col-span-2">{props.created_at}</p>
             <p className="col-span-2">{new Date().getTime()}</p>
             <Badge type={props.status}>
-                {props.status === BreakdownStatusEnum.OPEN ? "باز" : props.status === BreakdownStatusEnum.PENDING ? "در حال بررسی" : "بسته شده"}
+                {props.status === EmergencyStatusEnum.OPEN ? "باز" : props.status === EmergencyStatusEnum.PENDING ? "در حال بررسی" : "بسته شده"}
             </Badge>
 
             <span className="col-span-1 flex items-center justify-end gap-4">
@@ -35,4 +35,4 @@ const BreakdownsItem = (props: IProps) => {
     );
 };
 
-export default BreakdownsItem;
+export default EmergencyItem;

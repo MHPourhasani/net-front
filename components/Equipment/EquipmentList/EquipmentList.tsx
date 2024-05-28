@@ -19,7 +19,7 @@ const EquipmentList = ({ equipment }: Props) => {
         setFilteredBreakdowns(equipment.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
     }, [search]);
 
-    const deleteEquipmentHandler = (id: string) => {
+    const deleteEquipmentHandler = (id: number) => {
         console.log(id);
         toast.success(toastMessage(4));
     };
@@ -41,9 +41,11 @@ const EquipmentList = ({ equipment }: Props) => {
             </div>
 
             <div>
-                {filteredBreakdowns.map((item) => (
-                    <EquipmentItem key={item.id} {...item} onDelete={() => deleteEquipmentHandler(item.id)} />
-                ))}
+                {filteredBreakdowns.length ? (
+                    filteredBreakdowns.map((item) => <EquipmentItem key={item.id} {...item} onDelete={() => deleteEquipmentHandler(item.id)} />)
+                ) : (
+                    <p>تجهیزی وجود ندارد.</p>
+                )}
             </div>
         </div>
     );

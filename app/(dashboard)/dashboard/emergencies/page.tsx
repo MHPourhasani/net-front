@@ -1,12 +1,14 @@
 import AddIcon from "@/assets/icons/component/AddIcon";
-import EquipmentList from "@/components/Equipment/EquipmentList/EquipmentList";
+import EmergenciesList from "@/components/Emergencies/EmergenciesList/EmergenciesList";
 import { API } from "@/utils/api";
+import { PATH } from "@/utils/path";
 import { authToken } from "@/utils/storage";
+import Link from "next/link";
 
-const getEquipments = async () => {
+const getEmergencies = async () => {
     console.log("authToken", authToken.get()?.access);
     try {
-        const response = await fetch(API.equipment.listEquipment(), {
+        const response = await fetch(API.emergency.listEmergency(), {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
@@ -23,33 +25,25 @@ const getEquipments = async () => {
     }
 };
 
-const EquipmentPage = async () => {
-    const equipments = await getEquipments();
-    // console.log(equipments);
-    // const addEquipment = () => {
-    //     if (true) {
-
-    //     } else {
-    //         toast.error(toastMessage(3))
-    //     }
-    // };
+const EmergenciesPage = async () => {
+    const emergencies = await getEmergencies();
 
     return (
         <div className="flex flex-col gap-16">
             <div className="flex w-full items-center justify-between">
-                <h1 className="text-xl font-bold">لیست تجهیزات</h1>
-                <button
-                    // onClick={addEquipment}
+                <h1 className="text-xl font-bold">لیست خرابی ها</h1>
+                <Link
+                    href={PATH.addBreakdowns}
                     className="flex items-center gap-2 stroke-sky-400 text-sky-400 transition-all ease-in-out hover:stroke-sky-500 hover:text-sky-500"
                 >
                     <AddIcon />
-                    افزودن تجهیز
-                </button>
+                    افزودن خرابی
+                </Link>
             </div>
 
-            <EquipmentList equipment={equipments.length ? equipments : []} />
+            <EmergenciesList emergencies={emergencies.length ? emergencies : []} />
         </div>
     );
 };
 
-export default EquipmentPage;
+export default EmergenciesPage;
