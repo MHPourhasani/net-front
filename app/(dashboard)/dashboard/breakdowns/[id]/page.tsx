@@ -1,6 +1,6 @@
 import BreakdownAnswer from "@/components/Breakdowns/BreakdownAnswer/BreakdownAnswer";
 import Input from "@/components/common/Input/Input";
-import Textarea from "@/components/common/Textarea";
+import Textarea from "@/components/common/Textarea/Textarea";
 
 const SingleBreakdown = () => {
     return (

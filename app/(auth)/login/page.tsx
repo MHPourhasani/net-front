@@ -1,14 +1,7 @@
-import Input from "@/components/common/Input/Input";
+import Login from "@/utils/pages/login";
 
 const LoginPage = () => {
-    return (
-        <main>
-            <div className="w-full"></div>
-            <div className="flex w-full flex-col items-center justify-center gap-4 bg-gray-100">
-                <Input />
-            </div>
-        </main>
-    );
+    return <Login />;
 };
 
 export default LoginPage;

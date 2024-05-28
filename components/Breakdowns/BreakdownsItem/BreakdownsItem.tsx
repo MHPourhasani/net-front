@@ -28,7 +28,6 @@ const BreakdownsItem = (props: IProps) => {
                 </Link>
                 <TrashIcon
                     onClick={props.onDelete}
-                    color="#ef4444"
                     className="size-5 cursor-pointer stroke-red-500 transition-all ease-in-out hover:stroke-red-600"
                 />
             </span>

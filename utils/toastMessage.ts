@@ -8,6 +8,8 @@ export const toastMessage = (index: number) => {
             return "شما به این بخش دسترسی ندارید.";
         case 4:
             return "تجهیز با موفقیت حذف شد.";
+        case 5:
+            return "ورود با موفقیت انجام شد.";
 
         default:
             break;
