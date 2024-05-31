@@ -1,6 +1,6 @@
-import Modal from "@/components/common/Modal/Modal";
-import Textarea from "@/components/common/Textarea/Textarea";
-import { toastMessage } from "@/utils/toastMessage";
+import Modal from "../../../components/common/Modal/Modal";
+import Textarea from "../../../components/common/Textarea/Textarea";
+import { toastMessage } from "../../../utils/toastMessage";
 import { useState } from "react";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,4 @@
-import CloseIcon from "@/assets/icons/component/CloseIcon";
-import React from "react";
+import CloseIcon from "../../../assets/icons/component/CloseIcon";
 
 interface Props {
     title: string;

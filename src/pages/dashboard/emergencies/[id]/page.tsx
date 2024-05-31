@@ -1,6 +1,6 @@
-import EmergencyAnswer from "@/components/Emergencies/EmergencyAnswer/EmergencyAnswer";
-import Input from "@/components/common/Input/Input";
-import Textarea from "@/components/common/Textarea/Textarea";
+import EmergencyAnswer from "../../../../components/Emergencies/EmergencyAnswer/EmergencyAnswer";
+import Input from "../../../../components/common/Input/Input";
+import Textarea from "../../../../components/common/Textarea/Textarea";
 
 const SingleEmergencyPage = () => {
     return (
