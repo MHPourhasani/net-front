@@ -23,7 +23,7 @@ export const routes = [
         component: EquipmentPage
     },
     {
-        name: "createEquipment",
+        name: "create-equipment",
         path: PATH.createEquipment,
         component: CreateEquipmentPage
     },

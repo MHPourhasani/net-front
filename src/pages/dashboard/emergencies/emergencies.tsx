@@ -5,9 +5,11 @@ import { PATH } from "../../../utils/path";
 import AddIcon from "../../../assets/icons/component/AddIcon";
 import EmergenciesList from "../../../components/Emergencies/EmergenciesList/EmergenciesList";
 import { useEffect, useState } from "react";
+import { IEmergency } from "../../../interface/general";
+import { get } from "../../../utils/helpers";
 
-const EmergenciesPage = async () => {
-    const [emergencies, setEmergencies] = useState([]);
+const EmergenciesPage = () => {
+    const [emergencies, setEmergencies] = useState<IEmergency[]>([]);
 
     useEffect(() => {
         getEmergencies();
@@ -15,22 +17,17 @@ const EmergenciesPage = async () => {
 
     const getEmergencies = async () => {
         try {
-            const response = await fetch(API.emergency.listEmergency(), {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: "Bearer " + authToken.get()?.access
-                }
-            });
-            const data = await response.json();
-            setEmergencies(data);
+            get(API.emergency.listEmergency(), {}).then((data) => console.log(setEmergencies));
+
+            // const data = await response.json();
+            // setEmergencies(data);
         } catch (error: any) {
             console.error(error);
         }
     };
 
     return (
-        <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-12">
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-xl font-bold">لیست خرابی ها</h1>
                 <Link

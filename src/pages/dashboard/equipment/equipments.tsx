@@ -20,9 +20,7 @@ const EquipmentPage = () => {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                     Authorization: "Bearer " + authToken.get()?.access
-                },
-
-                cache: "no-store"
+                }
             });
             const data = await response.json();
             return data;
@@ -39,7 +37,7 @@ const EquipmentPage = () => {
     }, []);
 
     return (
-        <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-12">
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-xl font-bold">لیست تجهیزات</h1>
                 <Link

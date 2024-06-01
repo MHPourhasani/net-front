@@ -7,7 +7,7 @@ import { toastMessage } from "../../utils/toastMessage";
 import { toast } from "react-toastify";
 import Input from "../../components/common/Input/Input";
 import Button from "../../components/common/Button/Button";
-import LoginPageImage from "../../assets/images/login-page.svg";
+import LoginPageImage from "../../assets/images/svg/login-page.svg";
 
 // import { useAppDispatch } from "@/redux/hooks";
 // import { setUser } from "@/redux/slices/authSlice";

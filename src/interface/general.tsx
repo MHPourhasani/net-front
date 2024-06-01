@@ -34,17 +34,19 @@ export interface IEquipment {
     name: string;
     equipment_model: string;
     country: string;
-    image: string;
+    image: any;
 }
 
 export interface IEmergency {
-    id: string;
+    id: number;
     image?: string;
-    name: string;
-    status: EmergencyStatusType;
-    description: string;
+    state_code: IEquipment;
+    status?: EmergencyStatusType;
     created_at: number;
-    updated_at?: number;
+    repair_date: number;
+    reason_repairman?: string;
+    repair_code: string;
 }
 
-export type TOption = IEquipment;
+// export type TOption = IEquipment | IEmergency;
+export type TOption = any;

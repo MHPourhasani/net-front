@@ -77,7 +77,9 @@ const SingleSelect = (props: SingleSelectProps) => {
     }, [props.defaultValue]);
 
     useEffect(() => {
-        setFilteredOptions(props.options.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        // if (props.options) {
+        //     setFilteredOptions(props.options.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        // }
     }, [props.options, search]);
 
     useOnClickOutside(singleSelectRef, () => {

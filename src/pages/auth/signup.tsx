@@ -10,7 +10,7 @@ import { toastMessage } from "../../utils/toastMessage";
 import { toast } from "react-toastify";
 import Input from "../../components/common/Input/Input";
 import Button from "../../components/common/Button/Button";
-import loginImage from "../../assets/images/login-page.svg";
+import loginImage from "../../assets/images/svg/login-page.svg";
 
 const SignupPage = () => {
     const [formData, setFormData] = useState({ username: "", password: "" });
