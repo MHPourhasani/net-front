@@ -5,5 +5,9 @@ module.exports = {
     ignorePatterns: ["dist", ".eslintrc.cjs"],
     parser: "@typescript-eslint/parser",
     plugins: ["react-refresh"],
-    rules: { "@typescript-eslint/no-explicit-any": "off", "react-refresh/only-export-components": ["warn", { allowConstantExport: true }] }
+    rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/prefer-ts-expect-error": "error",
+        "react-refresh/only-export-components": ["warn", { allowConstantExport: true }]
+    }
 };

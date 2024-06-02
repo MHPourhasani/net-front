@@ -14,7 +14,6 @@ function App() {
 
                     <Route element={authToken.get()?.access ? <Layout /> : <Navigate to={PATH.login} replace />}>
                         {routes.map((route) => (
-                            //@ts-expect-error
                             <Route key={route.name} {...route} element={<route.component />} />
                         ))}
                     </Route>
