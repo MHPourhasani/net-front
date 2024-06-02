@@ -5,6 +5,7 @@ import EquipmentList from "../../../components/Equipment/EquipmentList/Equipment
 import { Link } from "react-router-dom";
 import { PATH } from "../../../utils/path";
 import { get } from "../../../utils/helpers";
+import EmptyState from "../../../components/EmptyState/EmptyState";
 
 const EquipmentPage = () => {
     const [equipments, setEquipments] = useState([]);
@@ -38,7 +39,11 @@ const EquipmentPage = () => {
                 </Link>
             </div>
 
-            {equipments.length ? <EquipmentList equipments={equipments} /> : null}
+            {equipments.length ? (
+                <EquipmentList equipments={equipments} />
+            ) : (
+                <EmptyState imgSrc={undefined} description="هیچ تجهیزی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEquipment} />
+            )}
         </div>
     );
 };

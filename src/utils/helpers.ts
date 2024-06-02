@@ -8,40 +8,38 @@ export const cn = (...inputs: ClassValue[]) => {
     return twMerge(clsx(inputs));
 };
 
-export const generateNewAccessToken = (refresh?: string) => {
+export const generateNewAccessToken = async (refresh?: string) => {
     const refresh_token = authToken.get()?.refresh || refresh;
 
-    return new Promise(async (resolve) => {
-        if (refresh_token) {
-            try {
-                const response = await fetch(API.profile.tokenRefresh(), {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ refresh: refresh_token })
-                });
+    if (refresh_token) {
+        try {
+            const response = await fetch(API.profile.tokenRefresh(), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ refresh: refresh_token })
+            });
 
-                if (!response.ok) {
-                    throw new Error("Failed to refresh access token");
-                }
-
-                const data = await response.json();
-                const token = {
-                    access: data.access,
-                    refresh: refresh_token,
-                    id: data.token_id
-                };
-                authToken.set(token);
-                resolve(token);
-            } catch (error) {
-                console.error(error);
+            if (!response.ok) {
+                throw new Error("Failed to refresh access token");
             }
-        } else {
-            authToken.remove();
-            window.location.replace(PATH.login);
+
+            const data = await response.json();
+            const token = {
+                access: data.access,
+                refresh: refresh_token,
+                id: data.token_id
+            };
+            authToken.set(token);
+            return token;
+        } catch (error) {
+            console.error(error);
         }
-    });
+    } else {
+        authToken.remove();
+        window.location.replace(PATH.login);
+    }
 };
 
 export const get = async (url: string, options?: any) => {
@@ -82,7 +80,6 @@ export const post = async (url: string, options?: any) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...options.headers,
             Authorization: `Bearer ${accessToken}`
         }
     };

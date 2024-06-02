@@ -39,8 +39,10 @@ const CreateEmergencyPage = () => {
     const submitHandler = async () => {
         post(API.emergency.createEmergency(formData.equipmentId!), {
             body: JSON.stringify({ created_at: new Date(+formData.created_at).toISOString(), reason_operator: formData.description })
-        }).then(() => {
-            navigate(PATH.emergencies);
+        }).then((res) => {
+            if (res.ok) {
+                navigate(PATH.emergencies);
+            }
         });
     };
 

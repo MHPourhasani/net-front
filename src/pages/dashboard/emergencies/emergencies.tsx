@@ -6,6 +6,7 @@ import EmergenciesList from "../../../components/Emergencies/EmergenciesList/Eme
 import { useEffect, useState } from "react";
 import { IEmergency } from "../../../interface/general";
 import { get } from "../../../utils/helpers";
+import EmptyState from "../../../components/EmptyState/EmptyState";
 
 const EmergenciesPage = () => {
     const [emergencies, setEmergencies] = useState<IEmergency[]>([]);
@@ -39,7 +40,11 @@ const EmergenciesPage = () => {
                 </Link>
             </div>
 
-            {emergencies.length ? <EmergenciesList emergencies={emergencies} /> : null}
+            {emergencies.length ? (
+                <EmergenciesList emergencies={emergencies} />
+            ) : (
+                <EmptyState imgSrc={undefined} description="هیچ خرابی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEmergency} />
+            )}
         </div>
     );
 };

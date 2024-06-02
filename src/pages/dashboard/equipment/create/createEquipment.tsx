@@ -46,8 +46,10 @@ const CreateEquipmentPage = () => {
                 created_at: new Date(+formData.created_at).toISOString(),
                 expire: new Date(+formData.expire).toISOString()
             })
-        }).then(() => {
-            navigate(PATH.equipments);
+        }).then((res) => {
+            if (res.ok) {
+                navigate(PATH.equipments);
+            }
         });
     };
 

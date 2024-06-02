@@ -8,7 +8,7 @@ import { API } from "../../../../utils/api";
 import { useParams } from "react-router-dom";
 
 const SingleEmergencyPage = () => {
-    const [emergency, setEmergency] = useState<IEmergency>({});
+    const [emergency, setEmergency] = useState<Partial<IEmergency>>({});
     const { id } = useParams();
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const SingleEmergencyPage = () => {
             <div className="flex flex-col gap-4">
                 <div className="grid w-full gap-4 lg:grid-cols-2">
                     <Input label="محصول" value={emergency.state_code?.name} disabled />
-                    <Input label="تاریخ تولید" value={new Date(+emergency.created_at * 1000).toLocaleDateString("fa-IR")} dir="ltr" disabled />
+                    <Input label="تاریخ تولید" value={new Date(+emergency.created_at! * 1000).toLocaleDateString("fa-IR")} dir="ltr" disabled />
                     <Input
                         label="تاریخ تعمیر"
                         value={emergency.repair_date ? new Date(+emergency.repair_date * 1000).toLocaleDateString("fa-IR") : "-------"}
@@ -46,7 +46,7 @@ const SingleEmergencyPage = () => {
                 <Textarea label="توضیحات اپراتور" disabled defaultValue={emergency.reason_operator} />
                 <Textarea label="توضیحات مختصص" disabled defaultValue={emergency.reason_repairman} />
 
-                <EmergencyAnswer emergency={emergency} />
+                <EmergencyAnswer emergency={emergency as IEmergency} />
             </div>
         </div>
     );

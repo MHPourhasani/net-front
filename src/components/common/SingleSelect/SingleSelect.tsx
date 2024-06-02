@@ -100,7 +100,7 @@ const SingleSelect = (props: SingleSelectProps) => {
                 onClick={() => {
                     if (!props.disabled) setShowOptions(!showOptions);
                 }}
-                className={`mt-2 flex h-12 w-full items-center gap-2 rounded-lg border p-2 ${showOptions ? "!border-primary-500 rounded-b-none border-b-0" : "bg-gray-100"}`}
+                className={`mt-2 flex h-12 w-full items-center gap-2 rounded-lg border p-2 ${showOptions ? "rounded-b-none border-b-0 !border-sky-500" : "bg-gray-100"}`}
             >
                 <div className="flex flex-1 items-center gap-4">
                     {selectedOption?.name && <span className="max-w-[200px] truncate text-sm">{selectedOption?.name}</span>}
@@ -142,9 +142,9 @@ const SingleSelect = (props: SingleSelectProps) => {
                 </span>
             </div>
 
-            {showOptions && (
+            {showOptions && !props.disabled && (
                 <div
-                    className={`no-scrollbar border-1.5 border-primary-500 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-lg border-t-0 bg-white text-gray-900 shadow-md`}
+                    className={`no-scrollbar border-1.5 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-lg border-t-0 border-sky-500 bg-white text-gray-900 shadow-md`}
                 >
                     {filteredOptions.length ? (
                         filteredOptions.map((option) => (
