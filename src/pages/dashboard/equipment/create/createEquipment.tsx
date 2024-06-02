@@ -6,21 +6,20 @@ import CountriesList from "../../../../components/CountriesList/CountriesList";
 import { post } from "../../../../utils/helpers";
 import { IEquipment } from "../../../../interface/general";
 import { DatePicker } from "mobin-datepicker";
+import { PATH } from "../../../../utils/path";
 
 const CreateEquipmentPage = () => {
     const [formData, setFormData] = useState<IEquipment>({
-        id: 0,
         created_at: String(new Date().getTime()),
         expire: String(new Date().getTime()),
         code_equip: "",
         representation_unit: "",
         representation_code: "",
         representation_period: 0,
-        state_code: "",
         name: "",
         equipment_model: "",
         country: "",
-        image: ""
+        image: null
     });
     const navigate = useNavigate();
     const equipmentImgRef = useRef<any>();
@@ -31,19 +30,24 @@ const CreateEquipmentPage = () => {
 
     const imageFileHandler = (e: any) => {
         if (e.target.files.length) {
-            const file = e.target.files[0];
-            setFormData({ ...formData, image: file });
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload = async function () {
+                // setFormData({ ...formData, image: e.target.files[0] });
+            };
         }
     };
 
-    const submitHandler = async () => {
-        console.log(formData.expire);
-        await post(API.equipment.createEquipment(), {
+    const submitHandler = () => {
+        post(API.equipment.createEquipment(), {
+            // headers: { "Content-Type": "" },
             body: JSON.stringify({
                 ...formData,
                 created_at: new Date(+formData.created_at).toISOString(),
                 expire: new Date(+formData.expire).toISOString()
             })
+        }).then(() => {
+            navigate(PATH.equipments);
         });
     };
 
@@ -56,7 +60,6 @@ const CreateEquipmentPage = () => {
             <div className="flex flex-col gap-4">
                 <div className="grid w-full gap-4 lg:grid-cols-2">
                     <Input label="محصول" name="name" onChange={changeHandler} />
-                    <Input label="کشور" name="country" onChange={changeHandler} />
                     <div className="flex w-full flex-col gap-2">
                         <label>کشور سازنده</label>
                         <CountriesList onChange={(country) => setFormData({ ...formData, country: country.name })} />
@@ -82,25 +85,25 @@ const CreateEquipmentPage = () => {
                             inputContainerClassName="!w-full"
                         />
                     </div>
-
-                    <div className="w-full">
-                        <span className="flex flex-col gap-2">
-                            <label>تصویر محصول</label>
-                            <button
-                                onClick={() => equipmentImgRef.current.click()}
-                                className="h-12 w-full rounded-lg bg-sky-400 text-white hover:bg-sky-500"
-                            >
-                                انتخاب تصویر
-                            </button>
-                        </span>
-                        <input
-                            type="file"
-                            ref={equipmentImgRef}
-                            accept="image/png, image/jpg, image/jpeg, image/webp"
-                            onChange={imageFileHandler}
-                            className="hidden"
-                        />
-                    </div>
+                </div>
+                <div className="flex w-full gap-10">
+                    <span className="flex items-center gap-2">
+                        <label>تصویر محصول</label>
+                        <button
+                            onClick={() => equipmentImgRef.current.click()}
+                            className="h-12 w-full rounded-lg bg-sky-400 text-white hover:bg-sky-500"
+                        >
+                            انتخاب تصویر
+                        </button>
+                    </span>
+                    {formData.image && <img src={formData.image} alt="equipment" />}
+                    <input
+                        type="file"
+                        ref={equipmentImgRef}
+                        accept="image/png, image/jpg, image/jpeg, image/webp"
+                        onChange={imageFileHandler}
+                        className="hidden"
+                    />
                 </div>
 
                 <div className="flex gap-4 self-end">

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { PATH } from "../../../utils/path";
-import Badge from "../../common/Badge/Badge";
-import { EmergencyStatusEnum, IEmergency } from "../../../interface/general";
+import { IEmergency } from "../../../interface/general";
 import OpenEyeIcon from "../../../assets/icons/component/OpenEyeIcon";
 import TrashIcon from "../../../assets/icons/component/TrashIcon";
 
@@ -14,13 +13,13 @@ const EmergencyItem = (props: IProps) => {
         <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-9">
             <p className="col-span-1 text-gray-400">1</p>
             <Link to={`${PATH.emergencies}/${props.id}`} className="col-span-2 truncate">
-                {props.name}
+                {props.state_code.name}
             </Link>
-            <p className="col-span-2">{props.created_at}</p>
-            <p className="col-span-2">{new Date().getTime()}</p>
-            <Badge type={props.status}>
+            <p className="col-span-2">{new Date(+props.created_at * 1000).toLocaleDateString("fa-IR")}</p>
+            <p className="col-span-2">{props.repair_date ? new Date(+props.repair_date * 1000).toLocaleDateString("fa-IR") : "--------"}</p>
+            {/* <Badge type={props.status}>
                 {props.status === EmergencyStatusEnum.OPEN ? "باز" : props.status === EmergencyStatusEnum.PENDING ? "در حال بررسی" : "بسته شده"}
-            </Badge>
+            </Badge> */}
 
             <span className="col-span-1 flex items-center justify-end gap-4">
                 <Link to={`${PATH.emergencies}/${props.id}`} className="col-span-2 truncate">

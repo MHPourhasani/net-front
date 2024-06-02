@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { authToken } from "../../../utils/storage";
 import { API } from "../../../utils/api";
 import { PATH } from "../../../utils/path";
 import AddIcon from "../../../assets/icons/component/AddIcon";
@@ -17,10 +16,11 @@ const EmergenciesPage = () => {
 
     const getEmergencies = async () => {
         try {
-            get(API.emergency.listEmergency(), {}).then((data) => console.log(setEmergencies));
-
-            // const data = await response.json();
-            // setEmergencies(data);
+            get(API.emergency.listEmergency())
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => setEmergencies(data));
         } catch (error: any) {
             console.error(error);
         }
@@ -39,7 +39,7 @@ const EmergenciesPage = () => {
                 </Link>
             </div>
 
-            <EmergenciesList emergencies={emergencies.length ? emergencies : []} />
+            {emergencies.length ? <EmergenciesList emergencies={emergencies} /> : null}
         </div>
     );
 };

@@ -77,9 +77,9 @@ const SingleSelect = (props: SingleSelectProps) => {
     }, [props.defaultValue]);
 
     useEffect(() => {
-        // if (props.options) {
-        //     setFilteredOptions(props.options.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
-        // }
+        if (props.options) {
+            setFilteredOptions(props.options.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        }
     }, [props.options, search]);
 
     useOnClickOutside(singleSelectRef, () => {
@@ -100,7 +100,7 @@ const SingleSelect = (props: SingleSelectProps) => {
                 onClick={() => {
                     if (!props.disabled) setShowOptions(!showOptions);
                 }}
-                className={`mt-2 flex w-full items-center gap-2 rounded-lg border p-2 ${showOptions ? "!border-primary-500 rounded-b-none border-b-0" : "bg-gray-100"}`}
+                className={`mt-2 flex h-12 w-full items-center gap-2 rounded-lg border p-2 ${showOptions ? "!border-primary-500 rounded-b-none border-b-0" : "bg-gray-100"}`}
             >
                 <div className="flex flex-1 items-center gap-4">
                     {selectedOption?.name && <span className="max-w-[200px] truncate text-sm">{selectedOption?.name}</span>}

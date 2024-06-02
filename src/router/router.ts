@@ -19,7 +19,7 @@ export const routes = [
     },
     {
         name: "equipment",
-        path: PATH.equipment,
+        path: PATH.equipments,
         component: EquipmentPage
     },
     {

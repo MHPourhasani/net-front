@@ -1,37 +1,32 @@
-import { IEmergency, IEquipment } from "../../../../interface/general";
 import SingleSelect from "../../../../components/common/SingleSelect/SingleSelect";
 import Textarea from "../../../../components/common/Textarea/Textarea";
 import { API } from "../../../../utils/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authToken } from "../../../../utils/storage";
-import { post } from "../../../../utils/helpers";
+import { get, post } from "../../../../utils/helpers";
 import { PATH } from "../../../../utils/path";
+import { DatePicker } from "mobin-datepicker";
 
 const CreateEmergenciesPage = () => {
-    const [emergencies, setEmergencies] = useState<IEmergency[]>([]);
-    const [formData, setFormData] = useState<{ product: IEquipment; created_at: string; description: string }>({
-        product: {},
-        created_at: new Date().toISOString(),
+    const [equipments, setEquipments] = useState([]);
+    const [formData, setFormData] = useState<{ equipmentId: number; created_at: string; description: string }>({
+        equipmentId: 0,
+        created_at: String(new Date().getTime()),
         description: ""
     });
     const navigate = useNavigate();
 
     useEffect(() => {
-        getEmergencies();
+        getEquipments();
     }, []);
 
-    const getEmergencies = async () => {
+    const getEquipments = () => {
         try {
-            const response = await fetch(API.emergency.listEmergency(), {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: "Bearer " + authToken.get()?.access
-                }
-            });
-            const data = await response.json();
-            setEmergencies(data);
+            get(API.equipment.listEquipment())
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => setEquipments(data));
         } catch (error: any) {
             console.error(error);
         }
@@ -42,8 +37,8 @@ const CreateEmergenciesPage = () => {
     };
 
     const submitHandler = async () => {
-        post(API.emergency.createEmergency(formData.product.id), {
-            body: JSON.stringify({ created_at: formData.created_at, reason_operator: formData.description })
+        post(API.emergency.createEmergency(formData.equipmentId!), {
+            body: JSON.stringify({ created_at: new Date(+formData.created_at).toISOString(), reason_operator: formData.description })
         }).then(() => {
             navigate(PATH.emergencies);
         });
@@ -57,11 +52,21 @@ const CreateEmergenciesPage = () => {
 
             <div className="flex flex-col gap-4">
                 <div className="grid w-full gap-4 lg:grid-cols-2">
-                    <SingleSelect
-                        label="محصول"
-                        options={emergencies}
-                        onChange={(selectedOption) => setFormData({ ...formData, product: selectedOption?.state_code || {} })}
-                    />
+                    {equipments && (
+                        <SingleSelect
+                            label="محصول"
+                            options={equipments}
+                            onChange={(selectedOption) => setFormData({ ...formData, equipmentId: selectedOption?.id })}
+                        />
+                    )}
+                    <div className="flex w-full flex-col gap-2">
+                        <label>تاریخ خرابی</label>
+                        <DatePicker
+                            value={new Date(+formData.created_at)}
+                            inputContainerClassName="!w-full"
+                            onChange={(value) => setFormData({ ...formData, created_at: String(value * 1000) })}
+                        />
+                    </div>
                 </div>
                 <Textarea label="توضیحات" name="description" defaultValue={formData.description} onChange={changeHandler} />
 

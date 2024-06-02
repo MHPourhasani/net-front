@@ -23,14 +23,14 @@ export enum EmergencyStatusEnum {
 export type EmergencyStatusType = "OPEN" | "PENDING" | "CLOSE";
 
 export interface IEquipment {
-    id: number;
+    id?: number;
     created_at: string;
     expire: string;
     code_equip: string;
     representation_unit: string;
     representation_code: string;
     representation_period: number;
-    state_code: string;
+    state_code?: string;
     name: string;
     equipment_model: string;
     country: string;
@@ -44,6 +44,7 @@ export interface IEmergency {
     status?: EmergencyStatusType;
     created_at: number;
     repair_date: number;
+    reason_operator: string;
     reason_repairman?: string;
     repair_code: string;
 }

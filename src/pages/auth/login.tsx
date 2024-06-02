@@ -34,7 +34,6 @@ const LoginPage = () => {
             });
             const data = await res.json();
             authToken.set(data);
-            console.log(data);
             navigate(PATH.dashboard, { replace: true });
             toast.success(toastMessage(5));
         } catch (error) {

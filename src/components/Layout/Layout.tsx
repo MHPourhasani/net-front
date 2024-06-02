@@ -5,7 +5,7 @@ const Layout = () => {
     return (
         <div className="flex h-[90vh] w-10/12 max-w-[1400px] gap-5">
             <Sidebar />
-            <section className="h-full w-full rounded-xl bg-white p-6">
+            <section className="no-scrollbar h-full w-full overflow-y-auto rounded-xl bg-white p-6">
                 <Outlet />
             </section>
         </div>

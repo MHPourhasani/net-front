@@ -52,7 +52,6 @@ export const get = async (url: string, options?: any) => {
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            ...options.headers,
             Authorization: `Bearer ${accessToken}`
         }
     };
@@ -83,7 +82,6 @@ export const post = async (url: string, options?: any) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
             ...options.headers,
             Authorization: `Bearer ${accessToken}`
         }
@@ -93,7 +91,35 @@ export const post = async (url: string, options?: any) => {
         const response = await fetch(url, authOptions);
 
         if (response.status === 401) {
-            // Try to refresh the token if 401 Unauthorized
+            const newAccessToken = await generateNewAccessToken();
+            if (newAccessToken) {
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                return await fetch(url, authOptions);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error("Fetch error: ", error);
+        throw error;
+    }
+};
+
+export const del = async (url: string, options?: any) => {
+    const accessToken = authToken.get()?.access;
+
+    const authOptions = {
+        ...options,
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`
+        }
+    };
+
+    try {
+        const response = await fetch(url, authOptions);
+
+        if (response.status === 401) {
             const newAccessToken = await generateNewAccessToken();
             if (newAccessToken) {
                 authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;

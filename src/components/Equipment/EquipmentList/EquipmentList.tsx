@@ -5,22 +5,26 @@ import { toastMessage } from "../../../utils/toastMessage";
 import Input from "../../common/Input/Input";
 import EquipmentItem from "../EquipmentItem/EquipmentItem";
 import SearchIcon from "../../../assets/icons/component/SearchIcon";
+import { del } from "../../../utils/helpers";
+import { API } from "../../../utils/api";
 
 interface Props {
-    equipment: IEquipment[];
+    equipments: IEquipment[];
 }
 
-const EquipmentList = ({ equipment }: Props) => {
+const EquipmentList = ({ equipments }: Props) => {
     const [search, setSearch] = useState("");
-    const [filteredEquipments, setFilteredEquipments] = useState(equipment);
+    const [filteredEquipments, setFilteredEquipments] = useState(equipments);
 
     useEffect(() => {
-        setFilteredEquipments(equipment.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        setFilteredEquipments(equipments.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
     }, [search]);
 
     const deleteEquipmentHandler = (id: number) => {
-        console.log(id);
-        toast.success(toastMessage(4));
+        del(API.equipment.deleteEquipment(id)).then(() => {
+            setFilteredEquipments(filteredEquipments.filter((item) => item.id !== id));
+            toast.success(toastMessage(4));
+        });
     };
 
     return (
@@ -34,16 +38,18 @@ const EquipmentList = ({ equipment }: Props) => {
                 <span className="col-span-1">ردیف</span>
                 <span className="col-span-1"></span>
                 <span className="col-span-2">نام</span>
-                <span className="col-span-2">تاریخ ایجاد</span>
-                <span className="col-span-2">تاریخ ویرایش</span>
+                <span className="col-span-2">تاریخ تولید</span>
+                <span className="col-span-2">تاریخ انقضا</span>
                 <span className="col-span-1"></span>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-2">
                 {filteredEquipments.length ? (
-                    filteredEquipments.map((item) => <EquipmentItem key={item.id} {...item} onDelete={() => deleteEquipmentHandler(item.id)} />)
+                    filteredEquipments.map((item, index) => (
+                        <EquipmentItem key={item.id} index={index} {...item} onDelete={() => deleteEquipmentHandler(item.id!)} />
+                    ))
                 ) : (
-                    <p>تجهیزی وجود ندارد.</p>
+                    <p>تجهیزی یافت نشد.</p>
                 )}
             </div>
         </div>

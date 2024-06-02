@@ -5,6 +5,8 @@ import { toastMessage } from "../../../utils/toastMessage";
 import { toast } from "react-toastify";
 import Input from "../../common/Input/Input";
 import SearchIcon from "../../../assets/icons/component/SearchIcon";
+import { del } from "../../../utils/helpers";
+import { API } from "../../../utils/api";
 
 interface Props {
     emergencies: IEmergency[];
@@ -15,12 +17,20 @@ const EmergenciesList = ({ emergencies }: Props) => {
     const [filteredEmergencies, setFilteredEmergencies] = useState(emergencies);
 
     useEffect(() => {
-        setFilteredEmergencies(emergencies.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+        setFilteredEmergencies(
+            emergencies.filter(
+                (item) =>
+                    item.reason_operator.toLowerCase().includes(search.toLowerCase()) ||
+                    item.state_code.name.toLowerCase().includes(search.toLowerCase())
+            )
+        );
     }, [search]);
 
-    const deleteBreakdownHandler = (id: string) => {
-        console.log(id);
-        toast.success(toastMessage(1));
+    const deleteBreakdownHandler = (id: number) => {
+        del(API.emergency.deleteEmergency(id)).then(() => {
+            setFilteredEmergencies(filteredEmergencies.filter((item) => item.id !== id));
+            toast.success(toastMessage(1));
+        });
     };
 
     return (
@@ -34,7 +44,7 @@ const EmergenciesList = ({ emergencies }: Props) => {
                 <span className="col-span-1">ردیف</span>
                 <span className="col-span-2">نام</span>
                 <span className="col-span-2">تاریخ ایجاد</span>
-                <span className="col-span-2">تاریخ ویرایش</span>
+                <span className="col-span-2">تاریخ تعمیر</span>
                 <span className="col-span-1">وضعیت</span>
                 <span className="col-span-1"></span>
             </div>
@@ -43,7 +53,7 @@ const EmergenciesList = ({ emergencies }: Props) => {
                 {filteredEmergencies.length ? (
                     filteredEmergencies.map((item) => <EmergencyItem key={item.id} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />)
                 ) : (
-                    <p>خرابی وجود ندارد.</p>
+                    <p>خرابی یافت نشد.</p>
                 )}
             </div>
         </div>
