@@ -132,3 +132,32 @@ export const del = async (url: string, options?: any) => {
         throw error;
     }
 };
+
+export const patch = async (url: string, options?: any) => {
+    const accessToken = authToken.get()?.access;
+
+    const authOptions = {
+        ...options,
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`
+        }
+    };
+
+    try {
+        const response = await fetch(url, authOptions);
+
+        if (response.status === 401) {
+            const newAccessToken = await generateNewAccessToken();
+            if (newAccessToken) {
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                return await fetch(url, authOptions);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error("Fetch error: ", error);
+        throw error;
+    }
+};

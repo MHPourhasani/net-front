@@ -14,7 +14,7 @@ const Textarea = (props: TextareaProps) => {
             <label htmlFor="textarea">{props.label}</label>
             <textarea
                 {...props}
-                className={`text-secondary-600 h-40 max-h-96 rounded-xl border-[1.5px] bg-gray-100 p-2 outline-none focus:bg-transparent focus:outline-none ${props.textareaClassName}`}
+                className={`text-secondary-600 h-32 max-h-96 rounded-xl border-[1.5px] bg-gray-100 p-2 outline-none focus:bg-transparent focus:outline-none ${props.textareaClassName}`}
             ></textarea>
             {props.error && <span className="text-red-600">{props.error}</span>}
         </div>

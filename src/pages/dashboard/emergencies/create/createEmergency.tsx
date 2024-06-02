@@ -7,7 +7,7 @@ import { get, post } from "../../../../utils/helpers";
 import { PATH } from "../../../../utils/path";
 import { DatePicker } from "mobin-datepicker";
 
-const CreateEmergenciesPage = () => {
+const CreateEmergencyPage = () => {
     const [equipments, setEquipments] = useState([]);
     const [formData, setFormData] = useState<{ equipmentId: number; created_at: string; description: string }>({
         equipmentId: 0,
@@ -86,4 +86,4 @@ const CreateEmergenciesPage = () => {
     );
 };
 
-export default CreateEmergenciesPage;
+export default CreateEmergencyPage;

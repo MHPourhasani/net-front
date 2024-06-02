@@ -42,14 +42,14 @@ const EmergenciesList = ({ emergencies }: Props) => {
 
             <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-9">
                 <span className="col-span-1">ردیف</span>
-                <span className="col-span-2">نام</span>
+                <span className="col-span-2">نام محصول</span>
                 <span className="col-span-2">تاریخ ایجاد</span>
                 <span className="col-span-2">تاریخ تعمیر</span>
                 <span className="col-span-1">وضعیت</span>
                 <span className="col-span-1"></span>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-2">
                 {filteredEmergencies.length ? (
                     filteredEmergencies.map((item) => <EmergencyItem key={item.id} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />)
                 ) : (

@@ -13,13 +13,13 @@ interface CountriesListProps {
     defaultCountry?: TCountry;
     inputProps?: InputProps;
     options?: TCountry[];
-    onChange: (selectedOption: TCountry) => void;
+    onChange?: (selectedOption: TCountry) => void;
     emptySearchText?: string;
     disabled?: boolean;
     className?: string;
 }
 
-type TCountry = { name: string; code: string; flag?: string };
+type TCountry = { name: string; code?: string; flag?: string };
 
 const CountriesList = (props: CountriesListProps) => {
     const [search, setSearch] = useState("");
@@ -64,7 +64,9 @@ const CountriesList = (props: CountriesListProps) => {
     };
 
     const selectCountryHandler = (country: TCountry) => {
-        props.onChange(country);
+        if (props.onChange) {
+            props.onChange(country);
+        }
         setSelectedOption(country);
         setShowOptions(false);
         setSearch("");
@@ -148,7 +150,7 @@ const CountriesList = (props: CountriesListProps) => {
                 </span>
             </div>
 
-            {showOptions && (
+            {showOptions && !props.disabled && (
                 <div
                     className={`no-scrollbar border-1.5 text-secondary-900 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-[10px] border-t-0 border-sky-500 bg-white shadow-md`}
                 >

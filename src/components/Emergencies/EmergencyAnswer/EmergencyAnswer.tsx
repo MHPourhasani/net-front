@@ -1,19 +1,31 @@
 import Modal from "../../../components/common/Modal/Modal";
 import Textarea from "../../../components/common/Textarea/Textarea";
+import { API } from "../../../utils/api";
 import { toastMessage } from "../../../utils/toastMessage";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { patch } from "../../../utils/helpers";
+import { IEmergency } from "../../../interface/general";
 
-const EmergencyAnswer = () => {
+interface Props {
+    emergency: IEmergency;
+}
+
+const EmergencyAnswer = ({ emergency }: Props) => {
     const [isShowAnswer, setIsShowAnswer] = useState(false);
     const [isDeleteAnswer, setIsDeleteAnswer] = useState(false);
     const [answer, setAnswer] = useState("");
 
     const sendAnswerHandler = () => {
-        // send answer api
-        setIsShowAnswer(false);
-        setAnswer("");
-        toast.success(toastMessage(2));
+        patch(API.emergency.updateEmergency(emergency.id), { body: JSON.stringify({ reason_repairman: answer }) })
+            .then((res) => {
+                res.json();
+            })
+            .then(() => {
+                setIsShowAnswer(false);
+                setAnswer("");
+                toast.success(toastMessage(2));
+            });
     };
 
     const deleteHandler = () => {

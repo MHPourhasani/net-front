@@ -21,7 +21,7 @@ const EquipmentItem = (props: IProps) => {
             <p className="col-span-2">{new Date(+props.expire * 1000).toLocaleDateString("fa-IR")}</p>
 
             <span className="col-span-1 flex items-center justify-end gap-4">
-                <Link to={`${PATH.emergencies}/${props.id}`} className="col-span-2 truncate">
+                <Link to={`${PATH.equipments}/${props.id}`} className="col-span-2 truncate">
                     <OpenEyeIcon className="size-5 cursor-pointer" />
                 </Link>
                 <TrashIcon
