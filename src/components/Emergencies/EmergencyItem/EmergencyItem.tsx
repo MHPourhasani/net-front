@@ -5,14 +5,17 @@ import OpenEyeIcon from "../../../assets/icons/component/OpenEyeIcon";
 import TrashIcon from "../../../assets/icons/component/TrashIcon";
 
 interface IProps extends IEmergency {
+    index: number;
     onDelete: () => void;
 }
 
 const EmergencyItem = (props: IProps) => {
     return (
-        <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-9">
-            <p className="col-span-1 text-gray-400">1</p>
+        <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-10">
+            <p className="col-span-1 text-gray-400">{props.index + 1}</p>
+            <p className="col-span-2 truncate text-gray-400">{props.id}</p>
             <Link to={`${PATH.emergencies}/${props.id}`} className="col-span-2 truncate">
+                {props.state_code.name}
                 {props.state_code.name}
             </Link>
             <p className="col-span-2">{new Date(+props.created_at * 1000).toLocaleDateString("fa-IR")}</p>

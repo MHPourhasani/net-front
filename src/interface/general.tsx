@@ -1,12 +1,15 @@
-export enum UserEnum {
-    EXPERT,
-    OPERATOR
+export enum JobEnum {
+    REPAIRMAN = "repairman",
+    OPERATOR = "operator",
+    USER = "user"
 }
 
-export interface IUser {
-    name: string;
-    role: UserEnum;
-    created_at: number;
+export interface IPersonnel {
+    id: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    job: JobEnum;
 }
 export interface IIconProps {
     onClick?: (a?: any) => void;

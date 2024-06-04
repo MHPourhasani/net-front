@@ -51,6 +51,7 @@ const LoginPage = () => {
                 <div className="flex w-full flex-col gap-4 md:w-11/12 lg:w-9/12 xl:w-8/12 2xl:w-6/12 2xl:max-w-[600px]">
                     <h1 className="mb-5 text-3xl font-bold">ورود به حساب کاربری</h1>
                     <Input
+                        dir="ltr"
                         label="نام کاربری"
                         name="username"
                         placeholder="example@gmail.com"
@@ -59,6 +60,7 @@ const LoginPage = () => {
                         error={formDataError.email}
                     />
                     <Input
+                        dir="ltr"
                         type="password"
                         label="رمز عبور"
                         name="password"
@@ -70,7 +72,7 @@ const LoginPage = () => {
                     <Button
                         variant="Primary"
                         onClick={LoginPageHandler}
-                        // disabled={!formData.email || !formData.password || formData.password.length < 8}
+                        disabled={!(formData.username && formData.password)}
                         className="disabled:bg-gray-300"
                     >
                         ورود به حساب کاربری

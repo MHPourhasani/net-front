@@ -40,8 +40,9 @@ const EmergenciesList = ({ emergencies }: Props) => {
                 <SearchIcon className="absolute right-4 top-1/4 cursor-pointer stroke-gray-300" />
             </div>
 
-            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-9">
+            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-10">
                 <span className="col-span-1">ردیف</span>
+                <span className="col-span-2">شناسه خرابی</span>
                 <span className="col-span-2">نام محصول</span>
                 <span className="col-span-2">تاریخ ایجاد</span>
                 <span className="col-span-2">تاریخ تعمیر</span>
@@ -51,7 +52,9 @@ const EmergenciesList = ({ emergencies }: Props) => {
 
             <div className="flex flex-col gap-2">
                 {filteredEmergencies.length ? (
-                    filteredEmergencies.map((item) => <EmergencyItem key={item.id} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />)
+                    filteredEmergencies.map((item, index) => (
+                        <EmergencyItem key={item.id} index={index} {...item} onDelete={() => deleteBreakdownHandler(item.id)} />
+                    ))
                 ) : (
                     <p>خرابی یافت نشد.</p>
                 )}

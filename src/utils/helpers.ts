@@ -49,7 +49,6 @@ export const get = async (url: string, options?: any) => {
         ...options,
         headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
             Authorization: `Bearer ${accessToken}`
         }
     };
@@ -61,7 +60,7 @@ export const get = async (url: string, options?: any) => {
             // Try to refresh the token if 401 Unauthorized
             const newAccessToken = await generateNewAccessToken();
             if (newAccessToken) {
-                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken.access}`;
                 return await fetch(url, authOptions);
             }
         }
@@ -90,7 +89,7 @@ export const post = async (url: string, options?: any) => {
         if (response.status === 401) {
             const newAccessToken = await generateNewAccessToken();
             if (newAccessToken) {
-                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken.access}`;
                 return await fetch(url, authOptions);
             }
         }
@@ -119,7 +118,7 @@ export const del = async (url: string, options?: any) => {
         if (response.status === 401) {
             const newAccessToken = await generateNewAccessToken();
             if (newAccessToken) {
-                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken.access}`;
                 return await fetch(url, authOptions);
             }
         }
@@ -148,7 +147,7 @@ export const patch = async (url: string, options?: any) => {
         if (response.status === 401) {
             const newAccessToken = await generateNewAccessToken();
             if (newAccessToken) {
-                authOptions.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                authOptions.headers["Authorization"] = `Bearer ${newAccessToken.access}`;
                 return await fetch(url, authOptions);
             }
         }
@@ -156,5 +155,32 @@ export const patch = async (url: string, options?: any) => {
     } catch (error) {
         console.error("Fetch error: ", error);
         throw error;
+    }
+};
+
+export const base64Decode = (str: string) => {
+    try {
+        return decodeURIComponent(
+            atob(str)
+                .split("")
+                .map((c) => {
+                    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join("")
+        );
+    } catch (e) {
+        console.error("Error decoding base64 string:", e);
+        return null;
+    }
+};
+
+export const decodeJWT = (token: string) => {
+    try {
+        const payload = token.split(".")[1];
+        const decodedPayload = base64Decode(payload);
+        return JSON.parse(decodedPayload!);
+    } catch (e) {
+        console.error("Error decoding JWT:", e);
+        return null;
     }
 };

@@ -10,6 +10,8 @@ export const toastMessage = (index: number) => {
             return "تجهیز با موفقیت حذف شد.";
         case 5:
             return "ورود با موفقیت انجام شد.";
+        case 6:
+            return "فیلد نظر متخصص نباید خالی باشد.";
 
         default:
             break;

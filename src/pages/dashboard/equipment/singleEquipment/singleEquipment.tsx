@@ -3,10 +3,15 @@ import { get } from "../../../../utils/helpers";
 import { API } from "../../../../utils/api";
 import { useParams } from "react-router-dom";
 import Input from "../../../../components/common/Input/Input";
-import { IEquipment } from "../../../../interface/general";
+import { IEquipment, JobEnum } from "../../../../interface/general";
 import CountriesList from "../../../../components/CountriesList/CountriesList";
+import Button from "../../../../components/common/Button/Button";
+import { Link } from "react-router-dom";
+import { PATH } from "../../../../utils/path";
+import { useAppSelector } from "../../../../redux/hooks";
 
 const SingleEquipmentPage = () => {
+    const userState = useAppSelector((state: any) => state.userReducer.user);
     const [equipment, setEquipment] = useState<Partial<IEquipment>>({});
     const { id } = useParams();
 
@@ -28,7 +33,14 @@ const SingleEquipmentPage = () => {
 
     return (
         <div className="flex flex-col gap-16">
-            <h1 className="text-xl font-bold">جزئیات تجهیز "{equipment.name}"</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-xl font-bold">جزئیات تجهیز "{equipment.name}"</h1>
+                {(userState?.job === JobEnum.REPAIRMAN || userState?.job === JobEnum.OPERATOR) && (
+                    <Link to={PATH.editEquipment}>
+                        <Button variant="Text">ویرایش</Button>
+                    </Link>
+                )}
+            </div>
 
             <div className="grid w-full gap-4 lg:grid-cols-2">
                 <Input label="نام" value={equipment.name} disabled />

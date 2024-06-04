@@ -5,27 +5,34 @@ import { toastMessage } from "../../../utils/toastMessage";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { patch } from "../../../utils/helpers";
-import { IEmergency } from "../../../interface/general";
+import { IEmergency, JobEnum } from "../../../interface/general";
+import Button from "../../common/Button/Button";
+import { useAppSelector } from "../../../redux/hooks";
 
 interface Props {
     emergency: IEmergency;
 }
 
 const EmergencyAnswer = ({ emergency }: Props) => {
+    const userState = useAppSelector((state: any) => state.userReducer.user);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
     const [isDeleteAnswer, setIsDeleteAnswer] = useState(false);
     const [answer, setAnswer] = useState("");
 
     const sendAnswerHandler = () => {
-        patch(API.emergency.updateEmergency(emergency.id), { body: JSON.stringify({ reason_repairman: answer }) })
-            .then((res) => {
-                res.json();
-            })
-            .then(() => {
-                setIsShowAnswer(false);
-                setAnswer("");
-                toast.success(toastMessage(2));
-            });
+        if (!answer.trim()) {
+            toast.error(toastMessage(6));
+        } else {
+            patch(API.emergency.updateEmergency(emergency.id), { body: JSON.stringify({ reason_repairman: answer }) })
+                .then((res) => {
+                    res.json();
+                })
+                .then(() => {
+                    setIsShowAnswer(false);
+                    setAnswer("");
+                    toast.success(toastMessage(2));
+                });
+        }
     };
 
     const deleteHandler = () => {
@@ -36,13 +43,14 @@ const EmergencyAnswer = ({ emergency }: Props) => {
 
     return (
         <div className="mt-4 flex w-full flex-col gap-4">
-            <div className="flex gap-4 self-end">
-                <button onClick={() => setIsShowAnswer(true)} className="transition-all ease-in-out hover:text-sky-400">
-                    پاسخ خرابی
-                </button>
-                <button onClick={() => setIsDeleteAnswer(true)} className="text-red-500 transition-all ease-in-out hover:text-red-600">
-                    بستن خرابی
-                </button>
+            <div className="flex w-full items-center justify-between">
+                <label>نظر مختصص</label>
+
+                {userState?.job === JobEnum.REPAIRMAN && (
+                    <Button variant="Text" onClick={() => setIsShowAnswer(true)}>
+                        افزودن پاسخ خرابی
+                    </Button>
+                )}
             </div>
 
             {isDeleteAnswer && (

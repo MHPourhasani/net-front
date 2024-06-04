@@ -95,7 +95,7 @@ const CountriesList = (props: CountriesListProps) => {
         <div
             ref={singleSelectRef}
             className={cn(
-                `relative w-full hover:border-gray-200 ${props.defaultCountry || selectedOption.name ? "border-gray-200 bg-transparent" : "border-transparent"} ${props.disabled ? "cursor-not-allowed bg-gray-100" : "cursor-pointer"}`,
+                `relative w-full rounded-[10px] hover:border-gray-200 ${props.defaultCountry || selectedOption.name ? "border-gray-200 bg-transparent" : "border-transparent"} ${props.disabled ? "cursor-not-allowed bg-gray-100" : "cursor-pointer"}`,
                 props.className
             )}
         >
@@ -103,7 +103,7 @@ const CountriesList = (props: CountriesListProps) => {
                 onClick={() => {
                     if (!props.disabled) setShowOptions(!showOptions);
                 }}
-                className={`border-1.5 flex min-h-12 w-full items-center gap-2 rounded-[10px] px-3 ${showOptions ? "rounded-b-none border-b-0 !border-sky-500" : "bg-gray-100"}`}
+                className={`flex min-h-12 w-full items-center gap-2 rounded-[10px] border px-3 ${showOptions ? "rounded-b-none border-b-0 !border-sky-500" : "bg-gray-100"}`}
             >
                 <div className="flex flex-1 items-center gap-4">
                     {selectedOption.name && (
@@ -152,13 +152,13 @@ const CountriesList = (props: CountriesListProps) => {
 
             {showOptions && !props.disabled && (
                 <div
-                    className={`no-scrollbar border-1.5 text-secondary-900 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-[10px] border-t-0 border-sky-500 bg-white shadow-md`}
+                    className={`no-scrollbar border-1 text-secondary-900 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-[10px] border-t-0 border-sky-500 bg-white shadow-md`}
                 >
                     {filteredOptions.length ? (
                         filteredOptions.map((country) => (
                             <div key={country.code} onClick={() => selectCountryHandler(country)}>
                                 <span
-                                    className={`hover:bg-secondary-250 flex w-full cursor-pointer items-center justify-between truncate px-4 py-3 last-of-type:rounded-b-[10px] ${filteredOptions.findIndex((item) => item === country) === index ? "bg-secondary-250" : ""} ${selectedOption.name === country.name ? "cursor-not-allowed opacity-20" : ""}`}
+                                    className={`flex w-full cursor-pointer items-center justify-between truncate px-4 py-3 hover:bg-gray-100 ${filteredOptions.findIndex((item) => item === country) === index ? "bg-gray-100" : ""} ${selectedOption.name === country.name ? "cursor-not-allowed opacity-20" : ""}`}
                                 >
                                     <div className="flex items-center gap-2">
                                         {/* <img src={country.flag} alt={country.code} className="h-6 rounded-sm" /> */}

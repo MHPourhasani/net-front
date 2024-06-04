@@ -3,8 +3,10 @@ import { sidebarItems } from "../../utils/sidebarItems";
 import { authToken } from "../../utils/storage";
 import { PATH } from "../../utils/path";
 import { API } from "../../utils/api";
+import { useAppSelector } from "../../redux/hooks";
 
 const Sidebar = () => {
+    const userState = useAppSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
     const location = useLocation();
     let isActive = false;
@@ -31,7 +33,14 @@ const Sidebar = () => {
             <div className="flex flex-col gap-8">
                 <span className="flex flex-col items-center gap-4">
                     <span className="size-40 rounded-full shadow-lg shadow-gray-100"></span>
-                    <p className="rounded-md bg-sky-100 px-4 py-1">mhp</p>
+
+                    {(userState?.first_name || userState?.last_name) && (
+                        <p className="rounded-md bg-sky-100 px-4 py-1">
+                            {userState.first_name} {userState.last_name}
+                        </p>
+                    )}
+
+                    <p>{userState?.job}</p>
                 </span>
 
                 <nav className="flex flex-col">

@@ -6,8 +6,11 @@ import { Link } from "react-router-dom";
 import { PATH } from "../../../utils/path";
 import { get } from "../../../utils/helpers";
 import EmptyState from "../../../components/EmptyState/EmptyState";
+import { useAppSelector } from "../../../redux/hooks";
+import { JobEnum } from "../../../interface/general";
 
 const EquipmentPage = () => {
+    const userState = useAppSelector((state: any) => state.userReducer.user);
     const [equipments, setEquipments] = useState([]);
 
     useEffect(() => {
@@ -30,13 +33,16 @@ const EquipmentPage = () => {
         <div className="flex flex-col gap-12">
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-xl font-bold">لیست تجهیزات</h1>
-                <Link
-                    to={PATH.createEquipment}
-                    className="flex items-center gap-2 stroke-sky-400 text-sky-400 transition-all ease-in-out hover:stroke-sky-500 hover:text-sky-500"
-                >
-                    <AddIcon />
-                    افزودن تجهیز
-                </Link>
+
+                {userState.job !== JobEnum.USER && (
+                    <Link
+                        to={PATH.createEquipment}
+                        className="flex items-center gap-2 stroke-sky-400 text-sky-400 transition-all ease-in-out hover:stroke-sky-500 hover:text-sky-500"
+                    >
+                        <AddIcon />
+                        افزودن تجهیز
+                    </Link>
+                )}
             </div>
 
             {equipments.length ? (
