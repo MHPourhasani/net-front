@@ -14,6 +14,18 @@ export const toastMessage = (index: number) => {
             return "فیلد نظر متخصص نباید خالی باشد.";
         case 7:
             return "رمز عبور ها باهم متفاوت است.";
+        case 8:
+            return "نام محصول نباید خالی باشد.";
+        case 9:
+            return "کشور سازنده نباید خالی باشد.";
+        case 10:
+            return "مدل نباید خالی باشد.";
+        case 11:
+            return "واحد نباید خالی باشد.";
+        case 12:
+            return "کد نباید خالی باشد.";
+        case 14:
+            return "گارنتی نباید خالی باشد.";
 
         default:
             break;

@@ -8,6 +8,8 @@ import { IEquipment } from "../../../../interface/general";
 import { DatePicker } from "mobin-datepicker";
 import { PATH } from "../../../../utils/path";
 import Button from "../../../../components/common/Button/Button";
+import { toast } from "react-toastify";
+import { toastMessage } from "../../../../utils/toastMessage";
 
 const CreateEquipmentPage = () => {
     const [formData, setFormData] = useState<IEquipment>({
@@ -46,18 +48,29 @@ const CreateEquipmentPage = () => {
     };
 
     const submitHandler = () => {
-        post(API.equipment.createEquipment(), {
-            // headers: { "Content-Type": "" },
-            body: JSON.stringify({
-                ...formData,
-                created_at: new Date(+formData.created_at).toISOString(),
-                expire: new Date(+formData.expire).toISOString()
-            })
-        }).then((res) => {
-            if (res.ok) {
-                navigate(PATH.equipments);
-            }
-        });
+        if (!formData.name.trim()) {
+            toast.error(toastMessage(8));
+        } else if (!formData.country.trim()) {
+            toast.error(toastMessage(9));
+        } else if (!formData.equipment_model.trim()) {
+            toast.error(toastMessage(10));
+        } else if (!formData.representation_unit.trim()) {
+            toast.error(toastMessage(11));
+        } else if (!formData.code_equip.trim()) {
+            toast.error(toastMessage(12));
+        } else {
+            post(API.equipment.createEquipment(), {
+                body: JSON.stringify({
+                    ...formData,
+                    created_at: new Date(+formData.created_at).toISOString(),
+                    expire: new Date(+formData.expire).toISOString()
+                })
+            }).then((res) => {
+                if (res.ok) {
+                    navigate(PATH.equipments);
+                }
+            });
+        }
     };
 
     return (
@@ -87,7 +100,7 @@ const CreateEquipmentPage = () => {
                         />
                     </div>
 
-                    <Input label="گارانتی" name="representation_period" onChange={changeHandler} />
+                    <Input label="گارانتی" name="representation_period" pattern="[0-9]" onChange={changeHandler} />
 
                     <div className="flex w-full flex-col gap-2">
                         <label>تاریخ انقضا</label>
