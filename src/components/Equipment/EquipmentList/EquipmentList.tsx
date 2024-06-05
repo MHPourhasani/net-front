@@ -7,6 +7,8 @@ import EquipmentItem from "../EquipmentItem/EquipmentItem";
 import SearchIcon from "../../../assets/icons/component/SearchIcon";
 import { del } from "../../../utils/helpers";
 import { API } from "../../../utils/api";
+import EmptyState from "../../EmptyState/EmptyState";
+import { PATH } from "../../../utils/path";
 
 interface Props {
     equipments: IEquipment[];
@@ -15,6 +17,10 @@ interface Props {
 const EquipmentList = ({ equipments }: Props) => {
     const [search, setSearch] = useState("");
     const [filteredEquipments, setFilteredEquipments] = useState(equipments);
+
+    useEffect(() => {
+        setFilteredEquipments(equipments);
+    }, [equipments]);
 
     useEffect(() => {
         setFilteredEquipments(equipments.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
@@ -27,7 +33,7 @@ const EquipmentList = ({ equipments }: Props) => {
         });
     };
 
-    return (
+    return equipments.length ? (
         <div className="flex flex-col gap-4">
             <div className="relative">
                 <Input placeholder="پیدا کردن آیتم مورد نظر" onChange={(e) => setSearch(e.target.value)} className="pr-14" />
@@ -53,6 +59,8 @@ const EquipmentList = ({ equipments }: Props) => {
                 )}
             </div>
         </div>
+    ) : (
+        <EmptyState description="هیچ تجهیزی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEquipment} />
     );
 };
 

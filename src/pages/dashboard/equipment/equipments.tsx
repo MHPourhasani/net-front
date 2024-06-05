@@ -5,7 +5,6 @@ import EquipmentList from "../../../components/Equipment/EquipmentList/Equipment
 import { Link } from "react-router-dom";
 import { PATH } from "../../../utils/path";
 import { get } from "../../../utils/helpers";
-import EmptyState from "../../../components/EmptyState/EmptyState";
 import { useAppSelector } from "../../../redux/hooks";
 import { JobEnum } from "../../../interface/general";
 
@@ -45,11 +44,7 @@ const EquipmentPage = () => {
                 )}
             </div>
 
-            {equipments.length ? (
-                <EquipmentList equipments={equipments} />
-            ) : (
-                <EmptyState imgSrc={undefined} description="هیچ تجهیزی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEquipment} />
-            )}
+            <EquipmentList equipments={equipments} />
         </div>
     );
 };
