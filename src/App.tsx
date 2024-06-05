@@ -28,7 +28,15 @@ function App() {
                         }
                     >
                         {routes.map((route) => (
-                            <Route key={route.name} {...route} element={<route.component />} />
+                            <Route
+                                key={route.name}
+                                {...route}
+                                element={
+                                    <PrivateRoute>
+                                        <route.component />
+                                    </PrivateRoute>
+                                }
+                            />
                         ))}
                     </Route>
                 </Routes>
