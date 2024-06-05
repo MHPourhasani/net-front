@@ -3,7 +3,7 @@ import EmergencyAnswer from "../../../../components/Emergencies/EmergencyAnswer/
 import Input from "../../../../components/common/Input/Input";
 import Textarea from "../../../../components/common/Textarea/Textarea";
 import { IEmergency, JobEnum } from "../../../../interface/general";
-import { get } from "../../../../utils/helpers";
+import { get, patch } from "../../../../utils/helpers";
 import { API } from "../../../../utils/api";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -15,9 +15,9 @@ const SingleEmergencyPage = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [emergency, setEmergency] = useState<Partial<IEmergency>>({});
     const [isEditReasonOperator, setIsEditReasonOperator] = useState(false);
-    const [isEditReasonRRepairman, setIsEditReasonRepairman] = useState(false);
-    const [editReasonOperator, setEditReasonOperator] = useState("");
-    const [editReasonRRepairman, setEditReasonRRepairman] = useState("");
+    const [isEditReasonRepairman, setIsEditReasonRepairman] = useState(false);
+    const [reasonOperator, setReasonOperator] = useState("");
+    const [reasonRepairman, setReasonRepairman] = useState("");
     const { id } = useParams();
 
     useEffect(() => {
@@ -32,29 +32,49 @@ const SingleEmergencyPage = () => {
                 })
                 .then((data) => {
                     setEmergency(data);
-                    setEditReasonOperator(data.reason_operator);
-                    setEditReasonRRepairman(data.reason_repairman);
                 });
         } catch (error: any) {
             console.error(error);
         }
     };
 
-    const changeReasonOperatorHandler = () => {
-        // update api
-        setIsEditReasonOperator(false);
+    const updateReasonOperatorHandler = () => {
+        patch(API.emergency.updateOperatorEmergency(+id!), {
+            body: JSON.stringify({
+                created_at: new Date().toISOString(),
+                reason_operator: reasonOperator
+            })
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setEmergency(data);
+                setIsEditReasonOperator(false);
+            });
     };
 
-    const changeReasonRRepairmanHandler = () => {
-        // update api
-        setIsEditReasonRepairman(false);
+    const updateReasonRepairmanHandler = () => {
+        patch(API.emergency.updateEmergency(+id!), {
+            body: JSON.stringify({
+                repair_date: new Date().toISOString(),
+                reason_repairman: reasonRepairman
+            })
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setEmergency(data);
+                setIsEditReasonRepairman(false);
+            });
     };
 
     return (
         <div className="flex flex-col gap-16">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات خرابی "{emergency.id}"</h1>
-                {(userState?.job === JobEnum.REPAIRMAN || userState?.job === JobEnum.OPERATOR) && (
+                {userState?.job === JobEnum.ADMIN && (
                     <Link to={PATH.editEquipment}>
                         <Button variant="Text">ویرایش</Button>
                     </Link>
@@ -71,13 +91,13 @@ const SingleEmergencyPage = () => {
                         dir="ltr"
                         disabled
                     />
-                    <Input label="وضعیت" value={"باز"} disabled />
+                    <Input label="اپراتور" value={emergency.user?.first_name + " " + emergency.user?.last_name} disabled />
                 </div>
 
                 <div className="flex flex-col gap-2">
                     <span className="flex items-center justify-between">
                         <label>توضیحات اپراتور</label>
-                        {userState?.job === JobEnum.OPERATOR && (
+                        {userState?.id === emergency.user?.id && (
                             <div>
                                 {!isEditReasonOperator ? (
                                     <Button variant="Text" onClick={() => setIsEditReasonOperator(true)}>
@@ -85,7 +105,7 @@ const SingleEmergencyPage = () => {
                                     </Button>
                                 ) : (
                                     <div className="flex gap-2">
-                                        <Button variant="Text" onClick={changeReasonOperatorHandler}>
+                                        <Button variant="Text" onClick={updateReasonOperatorHandler}>
                                             تأیید
                                         </Button>
                                         <Button
@@ -103,8 +123,8 @@ const SingleEmergencyPage = () => {
                     <Textarea
                         disabled={!isEditReasonOperator}
                         autoFocus={isEditReasonOperator}
-                        defaultValue={editReasonOperator}
-                        onChange={(e) => setEditReasonOperator(e.target.value)}
+                        defaultValue={emergency.reason_operator}
+                        onChange={(e) => setReasonOperator(e.target.value)}
                     />
                 </div>
 
@@ -112,15 +132,15 @@ const SingleEmergencyPage = () => {
                     <div className="flex flex-col gap-2">
                         <span className="flex items-center justify-between">
                             <label>توضیحات مختصص</label>
-                            {userState?.job === JobEnum.REPAIRMAN && (
+                            {userState?.id === emergency.user?.id && (
                                 <div>
-                                    {!isEditReasonRRepairman ? (
+                                    {!isEditReasonRepairman ? (
                                         <Button variant="Text" onClick={() => setIsEditReasonRepairman(true)}>
                                             ویرایش
                                         </Button>
                                     ) : (
                                         <div className="flex gap-2">
-                                            <Button variant="Text" onClick={changeReasonOperatorHandler}>
+                                            <Button variant="Text" onClick={updateReasonRepairmanHandler}>
                                                 تأیید
                                             </Button>
                                             <Button
@@ -136,11 +156,15 @@ const SingleEmergencyPage = () => {
                             )}
                         </span>
 
-                        <Textarea disabled={!isEditReasonRRepairman} defaultValue={editReasonRRepairman} onChange={changeReasonRRepairmanHandler} />
+                        <Textarea
+                            disabled={!isEditReasonRepairman}
+                            defaultValue={emergency.reason_repairman}
+                            onChange={(e) => setReasonRepairman(e.target.value)}
+                        />
                     </div>
                 ) : (
                     <div className="flex w-full flex-col items-center gap-4 border-t pt-4">
-                        <EmergencyAnswer emergency={emergency as IEmergency} />
+                        <EmergencyAnswer emergency={emergency as IEmergency} onChange={(text) => setReasonRepairman(text)} />
 
                         <p>هیچ نظری برای این خرابی ثبت نشده است.</p>
                     </div>

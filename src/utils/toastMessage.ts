@@ -12,6 +12,8 @@ export const toastMessage = (index: number) => {
             return "ورود با موفقیت انجام شد.";
         case 6:
             return "فیلد نظر متخصص نباید خالی باشد.";
+        case 7:
+            return "رمز عبور ها باهم متفاوت است.";
 
         default:
             break;

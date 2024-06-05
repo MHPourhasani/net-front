@@ -35,7 +35,7 @@ const SingleEquipmentPage = () => {
         <div className="flex flex-col gap-16">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات تجهیز "{equipment.name}"</h1>
-                {(userState?.job === JobEnum.REPAIRMAN || userState?.job === JobEnum.OPERATOR) && (
+                {userState?.job === JobEnum.ADMIN && (
                     <Link to={PATH.editEquipment}>
                         <Button variant="Text">ویرایش</Button>
                     </Link>

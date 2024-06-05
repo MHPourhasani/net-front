@@ -13,8 +13,7 @@ import Button from "../../components/common/Button/Button";
 import loginImage from "../../assets/images/svg/login-page.svg";
 
 const SignupPage = () => {
-    const [formData, setFormData] = useState({ username: "", password: "" });
-    const [formDataError] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ username: "", password: "", confirmPassword: "" });
     const navigate = useNavigate();
     // const dispatch = useAppDispatch();
 
@@ -22,20 +21,24 @@ const SignupPage = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const loginHandler = async () => {
+    const signupHandler = async () => {
         try {
-            const res = await fetch(API.profile.createPersonnel(), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await res.json();
-            authToken.set(data);
-            navigate(PATH.dashboard, { replace: true });
-            toast.success(toastMessage(5));
+            if (formData.password !== formData.confirmPassword) {
+                console.log(toastMessage(7));
+            } else {
+                const res = await fetch(API.profile.createPersonnel(), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+                const data = await res.json();
+                authToken.set(data);
+                navigate(PATH.dashboard, { replace: true });
+                toast.success(toastMessage(5));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -50,27 +53,14 @@ const SignupPage = () => {
             <div className="flex w-full items-center justify-center p-4 md:flex-1 md:p-0">
                 <div className="flex w-full flex-col gap-4 md:w-11/12 lg:w-9/12 xl:w-8/12 2xl:w-6/12 2xl:max-w-[600px]">
                     <h1 className="mb-5 text-3xl font-bold">ثبت نام</h1>
-                    <Input
-                        label="نام کاربری"
-                        name="username"
-                        placeholder="example@gmail.com"
-                        value={formData.username}
-                        onChange={changeHandler}
-                        error={formDataError.email}
-                    />
-                    <Input
-                        type="password"
-                        label="رمز عبور"
-                        name="password"
-                        value={formData.password}
-                        onChange={changeHandler}
-                        error={formDataError.password}
-                    />
+                    <Input label="نام کاربری" name="username" placeholder="example@gmail.com" value={formData.username} onChange={changeHandler} />
+                    <Input type="password" label="رمز عبور" name="password" value={formData.password} onChange={changeHandler} />
+                    <Input type="password" label="تکرار رمز عبور" name="confirmPassword" value={formData.confirmPassword} onChange={changeHandler} />
 
                     <Button
                         variant="Primary"
-                        onClick={loginHandler}
-                        // disabled={!formData.email || !formData.password || formData.password.length < 8}
+                        onClick={signupHandler}
+                        disabled={!(formData.username && formData.password && formData.confirmPassword)}
                         className="disabled:bg-gray-300"
                     >
                         ثبت نام

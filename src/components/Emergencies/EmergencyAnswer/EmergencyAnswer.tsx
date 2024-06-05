@@ -11,9 +11,10 @@ import { useAppSelector } from "../../../redux/hooks";
 
 interface Props {
     emergency: IEmergency;
+    onChange: (text: string) => void;
 }
 
-const EmergencyAnswer = ({ emergency }: Props) => {
+const EmergencyAnswer = ({ emergency, onChange }: Props) => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
     const [isDeleteAnswer, setIsDeleteAnswer] = useState(false);
@@ -23,12 +24,15 @@ const EmergencyAnswer = ({ emergency }: Props) => {
         if (!answer.trim()) {
             toast.error(toastMessage(6));
         } else {
-            patch(API.emergency.updateEmergency(emergency.id), { body: JSON.stringify({ reason_repairman: answer }) })
+            patch(API.emergency.updateEmergency(emergency.id), {
+                body: JSON.stringify({ repair_date: new Date().toISOString(), reason_repairman: answer })
+            })
                 .then((res) => {
-                    res.json();
+                    return res.json();
                 })
-                .then(() => {
+                .then((data) => {
                     setIsShowAnswer(false);
+                    onChange(data.reason_repairman);
                     setAnswer("");
                     toast.success(toastMessage(2));
                 });

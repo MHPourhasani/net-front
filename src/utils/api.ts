@@ -6,7 +6,7 @@ export const API = {
         deleteEmergency: (id: number) => `${Environment.baseUrl()}/factory/delete-emergency/${id}/`,
         getEmergency: (id: number) => `${Environment.baseUrl()}/factory/get_emergency/${id}/`,
         listEmergency: () => `${Environment.baseUrl()}/factory/list_emergency/`,
-        updateOperatorEmergency: (id: number) => `${Environment.baseUrl()}/factory/update-operator-emergency/${id}/`,
+        updateOperatorEmergency: (id: number) => `${Environment.baseUrl()}/factory/update_operator_emergency/${id}/`,
         updateEmergency: (id: number) => `${Environment.baseUrl()}/factory/update_emergency/${id}/`
     },
     equipment: {
@@ -14,7 +14,7 @@ export const API = {
         deleteEquipment: (id: number) => `${Environment.baseUrl()}/factory/delete_equipment/${id}/`,
         getEquipment: (id: number) => `${Environment.baseUrl()}/factory/get_equipment/${id}/`,
         listEquipment: () => `${Environment.baseUrl()}/factory/list_equipment/`,
-        updateEquipment: (id: number) => `${Environment.baseUrl()}/factory/update-equipment/${id}/`
+        updateEquipment: (id: number) => `${Environment.baseUrl()}/factory/update_equipment/${id}/`
     },
     profile: {
         createPersonnel: () => `${Environment.baseUrl()}/profile/create_personnel/`,

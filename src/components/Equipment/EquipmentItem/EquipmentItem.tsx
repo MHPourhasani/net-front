@@ -13,7 +13,7 @@ const EquipmentItem = (props: IProps) => {
     return (
         <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-9">
             <p className="col-span-1 text-gray-400">{props.index + 1}</p>
-            <p className="col-span-1 text-gray-400">1 |</p>
+            <img src={props.image} alt={props.name} className="col-span-1 text-gray-400" />
             <Link to={`${PATH.equipments}/${props.id}`} className="col-span-2 truncate">
                 {props.name}
             </Link>

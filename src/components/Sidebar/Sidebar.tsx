@@ -4,6 +4,7 @@ import { authToken } from "../../utils/storage";
 import { PATH } from "../../utils/path";
 import { API } from "../../utils/api";
 import { useAppSelector } from "../../redux/hooks";
+import { post } from "../../utils/helpers";
 
 const Sidebar = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
@@ -11,18 +12,18 @@ const Sidebar = () => {
     const location = useLocation();
     let isActive = false;
 
-    const logoutHandler = async () => {
+    const logoutHandler = () => {
         try {
-            await fetch(API.profile.logout(), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
+            post(API.profile.logout(), {
                 body: JSON.stringify({ refresh: authToken.get()?.refresh })
-            });
-            authToken.remove();
-            navigate(PATH.login, { replace: true });
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then(() => {
+                    authToken.remove();
+                    navigate(PATH.login, { replace: true });
+                });
         } catch (error) {
             console.error(error);
         }

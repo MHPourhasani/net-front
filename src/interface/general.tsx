@@ -1,7 +1,8 @@
 export enum JobEnum {
     REPAIRMAN = "repairman",
     OPERATOR = "operator",
-    USER = "user"
+    WORKER = "worker",
+    ADMIN = "admin"
 }
 
 export interface IPersonnel {
@@ -45,6 +46,7 @@ export interface IEmergency {
     image?: string;
     state_code: IEquipment;
     status?: EmergencyStatusType;
+    user: IPersonnel;
     created_at: number;
     repair_date: number;
     reason_operator: string;

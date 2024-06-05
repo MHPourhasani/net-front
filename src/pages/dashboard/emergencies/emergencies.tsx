@@ -34,7 +34,7 @@ const EmergenciesPage = () => {
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-xl font-bold">لیست خرابی ها</h1>
 
-                {userState.job !== JobEnum.USER && (
+                {(userState?.job === JobEnum.ADMIN || userState?.job === JobEnum.OPERATOR) && (
                     <Link
                         to={PATH.createEmergency}
                         className="flex items-center gap-2 stroke-sky-400 text-sky-400 transition-all ease-in-out hover:stroke-sky-500 hover:text-sky-500"
@@ -48,7 +48,7 @@ const EmergenciesPage = () => {
             {emergencies.length ? (
                 <EmergenciesList emergencies={emergencies} />
             ) : (
-                <EmptyState imgSrc={undefined} description="هیچ خرابی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEmergency} />
+                <EmptyState imgSrc={undefined} description="هیچ خرابی ساخته نشده است." linkTitle="ساخت خرابی" linkHref={PATH.createEmergency} />
             )}
         </div>
     );
