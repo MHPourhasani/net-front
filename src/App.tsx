@@ -11,7 +11,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 function App() {
     return (
         <main className="flex h-screen w-full items-center justify-center overflow-hidden bg-gray-100">
-            <ToastContainer position="bottom-left" autoClose={3000} theme="light" />
+            <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
 
             <BrowserRouter>
                 <Routes>
