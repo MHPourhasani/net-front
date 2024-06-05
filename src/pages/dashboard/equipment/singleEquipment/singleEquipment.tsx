@@ -36,7 +36,7 @@ const SingleEquipmentPage = () => {
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات تجهیز "{equipment.name}"</h1>
                 {userState?.job === JobEnum.ADMIN && (
-                    <Link to={PATH.editEquipment}>
+                    <Link to={`${PATH.equipments}/edit/${id}`}>
                         <Button variant="Text">ویرایش</Button>
                     </Link>
                 )}
