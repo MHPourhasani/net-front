@@ -1,8 +1,9 @@
 import { PATH } from "../../../utils/path";
 import OpenEyeIcon from "../../../assets/icons/component/OpenEyeIcon";
 import TrashIcon from "../../../assets/icons/component/TrashIcon";
-import { IEquipment } from "../../../interface/general";
+import { IEquipment, JobEnum } from "../../../interface/general";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
 
 interface IProps extends IEquipment {
     index: number;
@@ -10,10 +11,12 @@ interface IProps extends IEquipment {
 }
 
 const EquipmentItem = (props: IProps) => {
+    const userState = useAppSelector((state: any) => state.userReducer.user);
+
     return (
         <div className="grid w-full rounded-lg bg-gray-50 p-4 lg:grid-cols-9">
             <p className="col-span-1 text-gray-400">{props.index + 1}</p>
-            <img src={props.image} alt={props.name} className="col-span-1 text-gray-400" />
+            <img src={props.image} alt={props.name} className="col-span-1 rounded-lg" />
             <Link to={`${PATH.equipments}/${props.id}`} className="col-span-2 truncate">
                 {props.name}
             </Link>
@@ -24,10 +27,12 @@ const EquipmentItem = (props: IProps) => {
                 <Link to={`${PATH.equipments}/${props.id}`} className="col-span-2 truncate">
                     <OpenEyeIcon className="size-5 cursor-pointer" />
                 </Link>
-                <TrashIcon
-                    onClick={props.onDelete}
-                    className="size-5 cursor-pointer stroke-red-500 transition-all ease-in-out hover:stroke-red-600"
-                />
+                {userState?.job === JobEnum.ADMIN && (
+                    <TrashIcon
+                        onClick={props.onDelete}
+                        className="size-5 cursor-pointer stroke-red-500 transition-all ease-in-out hover:stroke-red-600"
+                    />
+                )}
             </span>
         </div>
     );

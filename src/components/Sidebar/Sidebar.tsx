@@ -5,12 +5,28 @@ import { PATH } from "../../utils/path";
 import { API } from "../../utils/api";
 import { useAppSelector } from "../../redux/hooks";
 import { post } from "../../utils/helpers";
+import { JobEnum } from "../../interface/general";
 
 const Sidebar = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
     const location = useLocation();
     let isActive = false;
+
+    const covertJobName = (job: JobEnum) => {
+        switch (true) {
+            case job === JobEnum.ADMIN:
+                return "ادمین";
+            case job === JobEnum.OPERATOR:
+                return "اپراتور";
+            case job === JobEnum.REPAIRMAN:
+                return "متخصص";
+            case job === JobEnum.WORKER:
+                return "کارگر";
+            default:
+                break;
+        }
+    };
 
     const logoutHandler = () => {
         try {
@@ -41,7 +57,7 @@ const Sidebar = () => {
                         </p>
                     )}
 
-                    <p>{userState?.job}</p>
+                    <p>{covertJobName(userState?.job)}</p>
                 </span>
 
                 <nav className="flex flex-col">

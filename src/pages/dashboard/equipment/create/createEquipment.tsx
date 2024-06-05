@@ -7,6 +7,7 @@ import { post } from "../../../../utils/helpers";
 import { IEquipment } from "../../../../interface/general";
 import { DatePicker } from "mobin-datepicker";
 import { PATH } from "../../../../utils/path";
+import Button from "../../../../components/common/Button/Button";
 
 const CreateEquipmentPage = () => {
     const [formData, setFormData] = useState<IEquipment>({
@@ -21,11 +22,17 @@ const CreateEquipmentPage = () => {
         country: "",
         image: null
     });
+    const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>("");
     const navigate = useNavigate();
     const equipmentImgRef = useRef<any>();
 
     const changeHandler = (e: any) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const numberRegex = /[^\d]/g;
+
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.name === "representation_period" ? e.target.value.replace(numberRegex, "") : e.target.value
+        });
     };
 
     const imageFileHandler = (e: any) => {
@@ -33,7 +40,7 @@ const CreateEquipmentPage = () => {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
             reader.onload = async function () {
-                // setFormData({ ...formData, image: e.target.files[0] });
+                setImgUrl(reader.result);
             };
         }
     };
@@ -66,9 +73,11 @@ const CreateEquipmentPage = () => {
                         <label>کشور سازنده</label>
                         <CountriesList onChange={(country) => setFormData({ ...formData, country: country.name })} />
                     </div>
+
                     <Input label="مدل" name="equipment_model" onChange={changeHandler} />
                     <Input label="واحد" name="representation_unit" onChange={changeHandler} />
                     <Input label="کد" name="representation_code" onChange={changeHandler} />
+
                     <div className="flex w-full flex-col gap-2">
                         <label>تاریخ تولید</label>
                         <DatePicker
@@ -77,7 +86,9 @@ const CreateEquipmentPage = () => {
                             onChange={(value) => setFormData({ ...formData, created_at: String(value * 1000) })}
                         />
                     </div>
+
                     <Input label="گارانتی" name="representation_period" onChange={changeHandler} />
+
                     <div className="flex w-full flex-col gap-2">
                         <label>تاریخ انقضا</label>
                         <DatePicker
@@ -88,17 +99,14 @@ const CreateEquipmentPage = () => {
                         />
                     </div>
                 </div>
-                <div className="flex w-full gap-10">
-                    <span className="flex items-center gap-2">
+                <div className="flex w-full flex-col gap-10">
+                    <span className="flex items-center gap-4">
                         <label>تصویر محصول</label>
-                        <button
-                            onClick={() => equipmentImgRef.current.click()}
-                            className="h-12 w-full rounded-lg bg-sky-400 text-white hover:bg-sky-500"
-                        >
+                        <Button variant="Text" onClick={() => equipmentImgRef.current.click()} className="rounded-lg">
                             انتخاب تصویر
-                        </button>
+                        </Button>
                     </span>
-                    {formData.image && <img src={formData.image} alt="equipment" />}
+                    {imgUrl && <img src={String(imgUrl)} alt="equipment" className="w-10/12 rounded-xl" />}
                     <input
                         type="file"
                         ref={equipmentImgRef}
