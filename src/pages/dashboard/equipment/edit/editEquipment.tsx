@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { get, patch, post } from "../../../../utils/helpers";
+import { get, patch } from "../../../../utils/helpers";
 import { API } from "../../../../utils/api";
 import { IEquipment } from "../../../../interface/general";
 import Input from "../../../../components/common/Input/Input";
@@ -9,7 +9,7 @@ import { PATH } from "../../../../utils/path";
 import { DatePicker } from "mobin-datepicker";
 
 const EditEquipmentPage = () => {
-    const [formData, setFormData] = useState<Partial<IEquipment>>({ created_at: String(new Date().getTime()), expire: String(new Date().getTime()) });
+    const [formData, setFormData] = useState<Partial<IEquipment>>({});
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -42,8 +42,8 @@ const EditEquipmentPage = () => {
         patch(API.equipment.updateEquipment(+id!), {
             body: JSON.stringify({
                 ...formData,
-                created_at: new Date(+formData.created_at).toISOString(),
-                expire: new Date(+formData.expire).toISOString()
+                created_at: new Date(+formData.created_at! * 1000).toISOString(),
+                expire: new Date(+formData.expire! * 1000).toISOString()
             })
         }).then((res) => {
             if (res.ok) {
@@ -57,33 +57,37 @@ const EditEquipmentPage = () => {
             <h1 className="text-xl font-bold">ویرایش تجهیز "{formData.name}"</h1>
 
             <div className="grid w-full gap-4 lg:grid-cols-2">
-                <Input label="محصول" name="name" onChange={changeHandler} />
+                <Input label="محصول" name="name" value={formData.name} onChange={changeHandler} />
+
                 <div className="flex w-full flex-col gap-2">
                     <label>کشور سازنده</label>
-                    <CountriesList onChange={(country) => setFormData({ ...formData, country: country.name })} />
+                    <CountriesList
+                        defaultCountry={{ name: formData.country! }}
+                        onChange={(country) => setFormData({ ...formData, country: country.name })}
+                    />
                 </div>
 
-                <Input label="مدل" name="equipment_model" onChange={changeHandler} />
-                <Input label="واحد" name="representation_unit" onChange={changeHandler} />
-                <Input label="کد" name="representation_code" onChange={changeHandler} />
+                <Input label="مدل" name="equipment_model" value={formData.equipment_model} onChange={changeHandler} />
+                <Input label="واحد" name="representation_unit" value={formData.representation_unit} onChange={changeHandler} />
+                <Input label="کد" name="representation_code" value={formData.representation_code} onChange={changeHandler} />
 
                 <div className="flex w-full flex-col gap-2">
                     <label>تاریخ تولید</label>
                     <DatePicker
-                        value={new Date(+formData.created_at)}
+                        value={new Date(+formData.created_at! * 1000)}
                         inputContainerClassName="!w-full"
-                        onChange={(value) => setFormData({ ...formData, created_at: String(value * 1000) })}
+                        onChange={(value) => setFormData({ ...formData, created_at: String(value) })}
                     />
                 </div>
 
-                <Input label="گارانتی" name="representation_period" onChange={changeHandler} />
+                <Input label="گارانتی" name="representation_period" value={formData.representation_period} pattern="[0-9]" onChange={changeHandler} />
 
                 <div className="flex w-full flex-col gap-2">
                     <label>تاریخ انقضا</label>
                     <DatePicker
-                        value={new Date(+formData.expire)}
-                        minDate={new Date(+formData.created_at)}
-                        onChange={(value) => setFormData({ ...formData, expire: String(value * 1000) })}
+                        value={new Date(+formData.expire! * 1000)}
+                        minDate={new Date(+formData.created_at!)}
+                        onChange={(value) => setFormData({ ...formData, expire: String(value) })}
                         inputContainerClassName="!w-full"
                     />
                 </div>

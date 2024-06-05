@@ -56,8 +56,10 @@ const CreateEquipmentPage = () => {
             toast.error(toastMessage(10));
         } else if (!formData.representation_unit.trim()) {
             toast.error(toastMessage(11));
-        } else if (!formData.code_equip.trim()) {
+        } else if (!formData.representation_code.trim()) {
             toast.error(toastMessage(12));
+        } else if (!formData.representation_period) {
+            toast.error(toastMessage(14));
         } else {
             post(API.equipment.createEquipment(), {
                 body: JSON.stringify({
