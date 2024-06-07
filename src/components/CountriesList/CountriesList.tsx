@@ -152,7 +152,7 @@ const CountriesList = (props: CountriesListProps) => {
 
             {showOptions && !props.disabled && (
                 <div
-                    className={`no-scrollbar border-1 text-secondary-900 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-[10px] border-t-0 border-sky-500 bg-white shadow-md`}
+                    className={`no-scrollbar text-secondary-900 absolute z-10 flex h-fit max-h-96 w-full flex-col overflow-y-auto rounded-b-[10px] border border-t-0 border-sky-500 bg-white shadow-md`}
                 >
                     {filteredOptions.length ? (
                         filteredOptions.map((country) => (

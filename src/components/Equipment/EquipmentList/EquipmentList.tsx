@@ -9,6 +9,7 @@ import { del } from "../../../utils/helpers";
 import { API } from "../../../utils/api";
 import EmptyState from "../../EmptyState/EmptyState";
 import { PATH } from "../../../utils/path";
+import EquipmentListHeader from "../EquipmentListHeader/EquipmentListHeader";
 
 interface Props {
     equipments: IEquipment[];
@@ -40,14 +41,7 @@ const EquipmentList = ({ equipments }: Props) => {
                 <SearchIcon className="absolute right-4 top-1/4 cursor-pointer stroke-gray-300" />
             </div>
 
-            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-9">
-                <span className="col-span-1">ردیف</span>
-                <span className="col-span-1"></span>
-                <span className="col-span-2">نام</span>
-                <span className="col-span-2">تاریخ تولید</span>
-                <span className="col-span-2">تاریخ انقضا</span>
-                <span className="col-span-1"></span>
-            </div>
+            <EquipmentListHeader />
 
             <div className="flex flex-col gap-2">
                 {filteredEquipments.length ? (

@@ -4,6 +4,8 @@ import { API } from "../../utils/api";
 import { IEmergency, IEquipment } from "../../interface/general";
 import EmergencyItem from "../../components/Emergencies/EmergencyItem/EmergencyItem";
 import EquipmentItem from "../../components/Equipment/EquipmentItem/EquipmentItem";
+import EquipmentListHeader from "../../components/Equipment/EquipmentListHeader/EquipmentListHeader";
+import EmergenciesListHeader from "../../components/Emergencies/EmergenciesListHeader/EmergenciesListHeader";
 
 const DashboardPage = () => {
     const [equipments, setEquipments] = useState<IEquipment[]>([]);
@@ -62,14 +64,7 @@ const DashboardPage = () => {
 
                     {equipments.length ? (
                         <>
-                            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-9">
-                                <span className="col-span-1">ردیف</span>
-                                <span className="col-span-1"></span>
-                                <span className="col-span-2">نام</span>
-                                <span className="col-span-2">تاریخ تولید</span>
-                                <span className="col-span-2">تاریخ انقضا</span>
-                                <span className="col-span-1"></span>
-                            </div>
+                            <EquipmentListHeader />
 
                             <div className="flex flex-col gap-2">
                                 {equipments.slice(0, 5).map((item, index) => (
@@ -87,14 +82,7 @@ const DashboardPage = () => {
 
                     {emergencies.length ? (
                         <>
-                            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-10">
-                                <span className="col-span-1">ردیف</span>
-                                <span className="col-span-2">شناسه خرابی</span>
-                                <span className="col-span-2">نام محصول</span>
-                                <span className="col-span-2">تاریخ ایجاد</span>
-                                <span className="col-span-2">تاریخ تعمیر</span>
-                                <span className="col-span-1"></span>
-                            </div>
+                            <EmergenciesListHeader />
 
                             <div className="flex flex-col gap-2">
                                 {emergencies.slice(0, 5).map((item, index) => (

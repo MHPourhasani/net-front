@@ -7,6 +7,7 @@ import Input from "../../common/Input/Input";
 import SearchIcon from "../../../assets/icons/component/SearchIcon";
 import { del } from "../../../utils/helpers";
 import { API } from "../../../utils/api";
+import EmergenciesListHeader from "../EmergenciesListHeader/EmergenciesListHeader";
 
 interface Props {
     emergencies: IEmergency[];
@@ -38,14 +39,7 @@ const EmergenciesList = ({ emergencies }: Props) => {
                 <SearchIcon className="absolute right-4 top-1/4 cursor-pointer stroke-gray-300" />
             </div>
 
-            <div className="grid w-full border-b py-3 text-gray-400 lg:grid-cols-10">
-                <span className="col-span-1">ردیف</span>
-                <span className="col-span-2">شناسه خرابی</span>
-                <span className="col-span-2">نام محصول</span>
-                <span className="col-span-2">تاریخ ایجاد</span>
-                <span className="col-span-2">تاریخ تعمیر</span>
-                <span className="col-span-1"></span>
-            </div>
+            <EmergenciesListHeader />
 
             <div className="flex flex-col gap-2">
                 {filteredEmergencies.length ? (

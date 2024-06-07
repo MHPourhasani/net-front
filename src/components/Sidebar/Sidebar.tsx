@@ -6,6 +6,7 @@ import { API } from "../../utils/api";
 import { useAppSelector } from "../../redux/hooks";
 import { post } from "../../utils/helpers";
 import { JobEnum } from "../../interface/general";
+import userIcon from "../../assets/icons/svg/user.svg";
 
 const Sidebar = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
@@ -46,8 +47,10 @@ const Sidebar = () => {
     return (
         <aside className="flex w-[300px] flex-col justify-between rounded-xl bg-white p-4">
             <div className="flex flex-col gap-8">
-                <span className="flex flex-col items-center gap-4">
-                    <span className="size-40 rounded-full shadow-lg shadow-gray-100"></span>
+                <span className="flex flex-col items-center gap-6">
+                    <span className="flex size-40 items-center justify-center rounded-full bg-gradient-to-tr from-gray-100 to-gray-50 shadow-lg shadow-gray-200">
+                        <img src={userIcon} alt="user" className="w-1/2" />
+                    </span>
 
                     {(userState?.first_name || userState?.last_name) && (
                         <p className="rounded-md bg-sky-100 px-4 py-1">
