@@ -91,7 +91,7 @@ const CreateEquipmentPage = () => {
 
                     <Input label="مدل" name="equipment_model" onChange={changeHandler} />
                     <Input label="واحد" name="representation_unit" onChange={changeHandler} />
-                    <Input label="کد" name="representation_code" onChange={changeHandler} />
+                    <Input label="کد گارانتی" name="representation_code" onChange={changeHandler} />
 
                     <div className="flex w-full flex-col gap-2">
                         <label>تاریخ تولید</label>
@@ -102,7 +102,13 @@ const CreateEquipmentPage = () => {
                         />
                     </div>
 
-                    <Input label="گارانتی" name="representation_period" pattern="[0-9]" onChange={changeHandler} />
+                    <Input
+                        label="مدت گارانتی"
+                        name="representation_period"
+                        value={formData.representation_period}
+                        pattern="[0-9]"
+                        onChange={changeHandler}
+                    />
 
                     <div className="flex w-full flex-col gap-2">
                         <label>تاریخ انقضا</label>
