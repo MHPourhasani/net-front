@@ -32,10 +32,14 @@ const LoginPage = () => {
                 },
                 body: JSON.stringify(formData)
             });
-            const data = await res.json();
-            authToken.set(data);
-            navigate(PATH.dashboard, { replace: true });
-            toast.success(toastMessage(5));
+            if (res.status > 400) {
+                toast.error(toastMessage(16));
+            } else {
+                const data = await res.json();
+                authToken.set(data);
+                navigate(PATH.dashboard, { replace: true });
+                toast.success(toastMessage(5));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -43,7 +47,7 @@ const LoginPage = () => {
 
     return (
         <section className="flex min-h-screen w-full bg-white md:items-center md:gap-10 xl:gap-0">
-            <div className="md:bg-bg-2 hidden md:flex md:h-screen md:w-full md:flex-1 md:items-center md:justify-center">
+            <div className="hidden md:flex md:h-screen md:w-full md:flex-1 md:items-center md:justify-center md:bg-sky-50">
                 <img src={LoginPageImage} alt="LoginPage image" className="h-auto w-full 2xl:w-9/12" />
             </div>
 
@@ -54,7 +58,6 @@ const LoginPage = () => {
                         dir="ltr"
                         label="نام کاربری"
                         name="username"
-                        placeholder="example@gmail.com"
                         value={formData.username}
                         onChange={changeHandler}
                         error={formDataError.email}
