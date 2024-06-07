@@ -7,7 +7,7 @@ import { useAppSelector } from "../../../redux/hooks";
 
 interface IProps extends IEmergency {
     index: number;
-    onDelete: () => void;
+    onDelete?: () => void;
 }
 
 const EmergencyItem = (props: IProps) => {
@@ -30,7 +30,8 @@ const EmergencyItem = (props: IProps) => {
                 <Link to={`${PATH.emergencies}/${props.id}`} className="col-span-2 truncate">
                     <OpenEyeIcon className="size-5 cursor-pointer" />
                 </Link>
-                {userState?.job === JobEnum.ADMIN && (
+
+                {props.onDelete && userState?.job === JobEnum.ADMIN && (
                     <TrashIcon
                         onClick={props.onDelete}
                         className="size-5 cursor-pointer stroke-red-500 transition-all ease-in-out hover:stroke-red-600"

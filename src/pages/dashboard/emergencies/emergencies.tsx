@@ -8,10 +8,12 @@ import { IEmergency, JobEnum } from "../../../interface/general";
 import { get } from "../../../utils/helpers";
 import EmptyState from "../../../components/EmptyState/EmptyState";
 import { useAppSelector } from "../../../redux/hooks";
+import LoadingIcon from "../../../assets/icons/component/LoadingIcon";
 
 const EmergenciesPage = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [emergencies, setEmergencies] = useState<IEmergency[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getEmergencies();
@@ -19,11 +21,15 @@ const EmergenciesPage = () => {
 
     const getEmergencies = async () => {
         try {
+            setIsLoading(true);
             get(API.emergency.listEmergency())
                 .then((response) => {
                     return response.json();
                 })
-                .then((data) => setEmergencies(data));
+                .then((data) => {
+                    setIsLoading(false);
+                    setEmergencies(data);
+                });
         } catch (error: any) {
             console.error(error);
         }
@@ -45,7 +51,11 @@ const EmergenciesPage = () => {
                 )}
             </div>
 
-            {emergencies.length ? (
+            {isLoading ? (
+                <div className="flex w-full gap-4">
+                    در حال بارگذاری خرابی ها... <LoadingIcon className="animate-spin fill-[#212135]" />
+                </div>
+            ) : emergencies.length ? (
                 <EmergenciesList emergencies={emergencies} />
             ) : (
                 <EmptyState imgSrc={undefined} description="هیچ خرابی ساخته نشده است." linkTitle="ساخت خرابی" linkHref={PATH.createEmergency} />

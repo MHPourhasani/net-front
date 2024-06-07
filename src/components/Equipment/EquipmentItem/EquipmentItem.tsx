@@ -7,7 +7,7 @@ import { useAppSelector } from "../../../redux/hooks";
 
 interface IProps extends IEquipment {
     index: number;
-    onDelete: () => void;
+    onDelete?: () => void;
 }
 
 const EquipmentItem = (props: IProps) => {
@@ -27,7 +27,8 @@ const EquipmentItem = (props: IProps) => {
                 <Link to={`${PATH.equipments}/${props.id}`} className="col-span-2 truncate">
                     <OpenEyeIcon className="size-5 cursor-pointer" />
                 </Link>
-                {userState?.job === JobEnum.ADMIN && (
+
+                {props.onDelete && userState?.job === JobEnum.ADMIN && (
                     <TrashIcon
                         onClick={props.onDelete}
                         className="size-5 cursor-pointer stroke-red-500 transition-all ease-in-out hover:stroke-red-600"

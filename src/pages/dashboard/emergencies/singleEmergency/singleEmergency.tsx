@@ -88,7 +88,7 @@ const SingleEmergencyPage = () => {
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات خرابی "{emergency.id}"</h1>
                 {userState?.job === JobEnum.ADMIN && (
-                    <Link to={PATH.editEquipment}>
+                    <Link to={`${PATH.emergencies}/edit/${id}`}>
                         <Button variant="Text">ویرایش</Button>
                     </Link>
                 )}
@@ -141,7 +141,7 @@ const SingleEmergencyPage = () => {
                     <div className="flex flex-col gap-2">
                         <span className="flex items-center justify-between">
                             <label>توضیحات مختصص</label>
-                            {userState?.job === JobEnum.REPAIRMAN && userState?.id === emergency.user?.id && (
+                            {userState?.job === JobEnum.REPAIRMAN && (
                                 <div>
                                     {!isEditReasonRepairman ? (
                                         <Button variant="Text" onClick={() => setIsEditReasonRepairman(true)}>

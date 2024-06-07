@@ -44,7 +44,6 @@ const EmergenciesList = ({ emergencies }: Props) => {
                 <span className="col-span-2">نام محصول</span>
                 <span className="col-span-2">تاریخ ایجاد</span>
                 <span className="col-span-2">تاریخ تعمیر</span>
-                <span className="col-span-1">وضعیت</span>
                 <span className="col-span-1"></span>
             </div>
 

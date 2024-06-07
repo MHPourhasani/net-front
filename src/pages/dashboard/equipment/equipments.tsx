@@ -7,10 +7,13 @@ import { PATH } from "../../../utils/path";
 import { get } from "../../../utils/helpers";
 import { useAppSelector } from "../../../redux/hooks";
 import { JobEnum } from "../../../interface/general";
+import EmptyState from "../../../components/EmptyState/EmptyState";
+import LoadingIcon from "../../../assets/icons/component/LoadingIcon";
 
 const EquipmentPage = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [equipments, setEquipments] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getEquipments();
@@ -18,11 +21,15 @@ const EquipmentPage = () => {
 
     const getEquipments = () => {
         try {
+            setIsLoading(true);
             get(API.equipment.listEquipment())
                 .then((response) => {
                     return response.json();
                 })
-                .then((data) => setEquipments(data));
+                .then((data) => {
+                    setIsLoading(false);
+                    setEquipments(data);
+                });
         } catch (error: any) {
             console.error(error);
         }
@@ -44,7 +51,15 @@ const EquipmentPage = () => {
                 )}
             </div>
 
-            <EquipmentList equipments={equipments} />
+            {isLoading ? (
+                <div className="flex w-full gap-4">
+                    در حال بارگذاری تجهیزات... <LoadingIcon className="animate-spin fill-[#212135]" />
+                </div>
+            ) : equipments.length ? (
+                <EquipmentList equipments={equipments} />
+            ) : (
+                <EmptyState imgSrc={undefined} description="هیچ تجهیزی ساخته نشده است." linkTitle="ساخت تجهیز" linkHref={PATH.createEquipment} />
+            )}
         </div>
     );
 };

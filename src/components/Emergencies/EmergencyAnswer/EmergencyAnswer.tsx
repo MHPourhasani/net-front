@@ -62,7 +62,14 @@ const EmergencyAnswer = ({ emergency, onChange }: Props) => {
                     <div className="flex w-full flex-col">
                         <p>این عمل قابل بازگشت نیست. آیا از حذف خرابی مطمئن هستید؟</p>
                         <div className="flex gap-4 self-end">
-                            <button onClick={() => setIsDeleteAnswer(false)}>انصراف</button>
+                            <button
+                                onClick={() => {
+                                    setIsDeleteAnswer(false);
+                                    setAnswer("");
+                                }}
+                            >
+                                انصراف
+                            </button>
                             <button onClick={deleteHandler} className="text-red-500 hover:text-red-600">
                                 حذف
                             </button>
