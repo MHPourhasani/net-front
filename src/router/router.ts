@@ -8,6 +8,7 @@ import EquipmentPage from "../pages/dashboard/equipment/equipments";
 import SingleEquipmentPage from "../pages/dashboard/equipment/singleEquipment/singleEquipment";
 import { PATH } from "../utils/path";
 import EditEquipmentPage from "../pages/dashboard/equipment/edit/editEquipment";
+import EditEmergencyPage from "../pages/dashboard/emergencies/edit/editEmergency";
 
 export const routes = [
     {
@@ -49,6 +50,11 @@ export const routes = [
         name: "singleEmergency",
         path: PATH.singleEmergency,
         component: SingleEmergencyPage
+    },
+    {
+        name: "editEmergency",
+        path: PATH.editEmergency,
+        component: EditEmergencyPage
     },
     {
         name: "createEmergency",

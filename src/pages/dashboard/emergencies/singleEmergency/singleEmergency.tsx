@@ -5,7 +5,7 @@ import Textarea from "../../../../components/common/Textarea/Textarea";
 import { IEmergency, JobEnum } from "../../../../interface/general";
 import { get, patch } from "../../../../utils/helpers";
 import { API } from "../../../../utils/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../../utils/path";
 import Button from "../../../../components/common/Button/Button";
@@ -14,17 +14,17 @@ import { useAppSelector } from "../../../../redux/hooks";
 const SingleEmergencyPage = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [emergency, setEmergency] = useState<Partial<IEmergency>>({});
-    const [isEditReasonOperator, setIsEditReasonOperator] = useState(false);
     const [isEditReasonRepairman, setIsEditReasonRepairman] = useState(false);
     const [reasonOperator, setReasonOperator] = useState("");
     const [reasonRepairman, setReasonRepairman] = useState("");
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        getEmergencies();
+        getEmergency();
     }, []);
 
-    const getEmergencies = () => {
+    const getEmergency = () => {
         try {
             get(API.emergency.getEmergency(+id!))
                 .then((response) => {
@@ -36,27 +36,6 @@ const SingleEmergencyPage = () => {
                     setReasonRepairman(data.reason_repairman);
                 });
         } catch (error: any) {
-            console.error(error);
-        }
-    };
-
-    const updateReasonOperatorHandler = () => {
-        try {
-            patch(API.emergency.updateOperatorEmergency(+id!), {
-                body: JSON.stringify({
-                    created_at: new Date().toISOString(),
-                    reason_operator: reasonOperator
-                })
-            })
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    setEmergency(data);
-                    setReasonOperator(data.reason_operator);
-                    setIsEditReasonOperator(false);
-                });
-        } catch (error) {
             console.error(error);
         }
     };
@@ -78,20 +57,29 @@ const SingleEmergencyPage = () => {
             });
     };
 
-    const cancelClickHandler = () => {
-        setReasonOperator(emergency.reason_operator ? emergency.reason_operator : "");
-        setIsEditReasonOperator(false);
-    };
-
     return (
         <div className="flex flex-col gap-16">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات خرابی "{emergency.id}"</h1>
-                {userState?.job === JobEnum.ADMIN && (
-                    <Link to={`${PATH.emergencies}/edit/${id}`}>
-                        <Button variant="Text">ویرایش</Button>
+
+                <div className="flex gap-2">
+                    {(userState?.job === JobEnum.ADMIN || userState?.job === JobEnum.OPERATOR) && (
+                        <Link to={`${PATH.emergencies}/edit/${id}`}>
+                            <Button variant="Text">ویرایش</Button>
+                        </Link>
+                    )}
+                    <Link
+                        to={".."}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(-1);
+                        }}
+                    >
+                        <Button variant="Text" className="text-gray-400 hover:text-gray-900">
+                            بازگشت
+                        </Button>
                     </Link>
-                )}
+                </div>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -108,33 +96,8 @@ const SingleEmergencyPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <span className="flex items-center justify-between">
-                        <label>توضیحات اپراتور</label>
-                        {userState?.job === JobEnum.OPERATOR && userState?.id === emergency.user?.id && (
-                            <div>
-                                {!isEditReasonOperator ? (
-                                    <Button variant="Text" onClick={() => setIsEditReasonOperator(true)}>
-                                        ویرایش
-                                    </Button>
-                                ) : (
-                                    <div className="flex gap-2">
-                                        <Button variant="Text" onClick={updateReasonOperatorHandler}>
-                                            تأیید
-                                        </Button>
-                                        <Button variant="Text" onClick={cancelClickHandler} className="text-red-500 hover:text-red-600">
-                                            انصراف
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </span>
-                    <Textarea
-                        disabled={!isEditReasonOperator}
-                        autoFocus={isEditReasonOperator}
-                        defaultValue={reasonOperator}
-                        onChange={(e) => setReasonOperator(e.target.value)}
-                    />
+                    <label>توضیحات اپراتور</label>
+                    <Textarea disabled defaultValue={reasonOperator} onChange={(e) => setReasonOperator(e.target.value)} />
                 </div>
 
                 {reasonRepairman ? (
