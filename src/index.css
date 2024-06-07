@@ -42,3 +42,7 @@ body {
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+.Toastify__toast-body {
+    font-family: Vazirmatn;
+}
