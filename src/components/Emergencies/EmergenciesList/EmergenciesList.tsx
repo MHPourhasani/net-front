@@ -19,7 +19,7 @@ const EmergenciesList = ({ emergencies }: Props) => {
     useEffect(() => {
         setFilteredEmergencies(
             emergencies.filter(
-                (item) => item.reason_operator.toLowerCase().includes(search.toLowerCase()) || String(item.id).includes(search.toLowerCase())
+                (item) => item.state_code.name.toLowerCase().includes(search.toLowerCase()) || String(item.id).includes(search.toLowerCase())
             )
         );
     }, [search]);
