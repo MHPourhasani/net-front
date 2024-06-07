@@ -32,14 +32,12 @@ const Sidebar = () => {
         try {
             post(API.profile.logout(), {
                 body: JSON.stringify({ refresh: authToken.get()?.refresh })
-            })
-                .then((res) => {
-                    return res.json();
-                })
-                .then(() => {
+            }).then((res) => {
+                if (res.ok) {
                     authToken.remove();
                     navigate(PATH.login, { replace: true });
-                });
+                }
+            });
         } catch (error) {
             console.error(error);
         }
