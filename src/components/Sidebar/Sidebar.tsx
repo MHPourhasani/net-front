@@ -45,10 +45,10 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="flex w-[300px] flex-col justify-between rounded-xl bg-white p-4">
+        <aside className="flex w-[300px] flex-col justify-between rounded-xl bg-white p-4 pt-10">
             <div className="flex flex-col gap-8">
                 <span className="flex flex-col items-center gap-6">
-                    <span className="flex size-40 items-center justify-center rounded-full bg-gradient-to-tr from-gray-100 to-gray-50 shadow-lg shadow-gray-200">
+                    <span className="flex size-32 items-center justify-center rounded-full bg-gradient-to-tr from-gray-100 to-gray-50 shadow-lg shadow-gray-200">
                         <img src={userIcon} alt="user" className="w-1/2" />
                     </span>
 
