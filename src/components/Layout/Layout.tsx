@@ -24,12 +24,15 @@ const Layout = () => {
     }, [authToken]);
 
     return (
-        <div className="flex h-[90vh] w-10/12 max-w-[1400px] gap-5">
-            <Sidebar />
-            <section className="no-scrollbar h-full w-full overflow-y-auto rounded-xl bg-white p-6">
-                <Outlet />
-            </section>
-        </div>
+        <>
+            <div className="flex items-center justify-center lg:hidden">امکان استفاده در موبایل وجود ندارد.</div>
+            <div className="hidden h-[90vh] w-10/12 max-w-[1400px] gap-5 lg:flex">
+                <Sidebar />
+                <section className="no-scrollbar h-full w-full overflow-y-auto rounded-xl bg-white p-6">
+                    <Outlet />
+                </section>
+            </div>
+        </>
     );
 };
 
