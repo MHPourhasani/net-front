@@ -44,7 +44,7 @@ const EmergencyAnswer = ({ emergency, onChange }: Props) => {
             <div className="flex w-full items-center justify-between">
                 <label>نظر مختصص</label>
 
-                {userState?.job === JobEnum.REPAIRMAN && (
+                {(userState?.job === JobEnum.ADMIN || userState?.job === JobEnum.REPAIRMAN) && (
                     <Button variant="Text" onClick={() => setIsShowAnswer(true)}>
                         افزودن پاسخ خرابی
                     </Button>
