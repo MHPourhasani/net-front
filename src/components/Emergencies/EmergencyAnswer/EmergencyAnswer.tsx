@@ -1,4 +1,3 @@
-import Modal from "../../../components/common/Modal/Modal";
 import Textarea from "../../../components/common/Textarea/Textarea";
 import { API } from "../../../utils/api";
 import { toastMessage } from "../../../utils/toastMessage";
@@ -17,7 +16,6 @@ interface Props {
 const EmergencyAnswer = ({ emergency, onChange }: Props) => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
-    const [isDeleteAnswer, setIsDeleteAnswer] = useState(false);
     const [answer, setAnswer] = useState("");
 
     const sendAnswerHandler = () => {
@@ -28,7 +26,9 @@ const EmergencyAnswer = ({ emergency, onChange }: Props) => {
                 body: JSON.stringify({ repair_date: new Date().toISOString(), reason_repairman: answer })
             })
                 .then((res) => {
-                    return res.json();
+                    if (res.ok) {
+                        return res.json();
+                    }
                 })
                 .then((data) => {
                     setIsShowAnswer(false);
@@ -37,12 +37,6 @@ const EmergencyAnswer = ({ emergency, onChange }: Props) => {
                     toast.success(toastMessage(2));
                 });
         }
-    };
-
-    const deleteHandler = () => {
-        // delete api
-        setIsDeleteAnswer(false);
-        toast.success(toastMessage(1));
     };
 
     return (
@@ -56,27 +50,6 @@ const EmergencyAnswer = ({ emergency, onChange }: Props) => {
                     </Button>
                 )}
             </div>
-
-            {isDeleteAnswer && (
-                <Modal title="حذف خرابی" deleteStatus onClose={() => setIsDeleteAnswer(false)}>
-                    <div className="flex w-full flex-col">
-                        <p>این عمل قابل بازگشت نیست. آیا از حذف خرابی مطمئن هستید؟</p>
-                        <div className="flex gap-4 self-end">
-                            <button
-                                onClick={() => {
-                                    setIsDeleteAnswer(false);
-                                    setAnswer("");
-                                }}
-                            >
-                                انصراف
-                            </button>
-                            <button onClick={deleteHandler} className="text-red-500 hover:text-red-600">
-                                حذف
-                            </button>
-                        </div>
-                    </div>
-                </Modal>
-            )}
 
             {isShowAnswer ? (
                 <div className="flex flex-col gap-4">

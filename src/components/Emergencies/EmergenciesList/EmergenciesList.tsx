@@ -26,9 +26,11 @@ const EmergenciesList = ({ emergencies }: Props) => {
     }, [search]);
 
     const deleteBreakdownHandler = (id: number) => {
-        del(API.emergency.deleteEmergency(id)).then(() => {
-            setFilteredEmergencies(filteredEmergencies.filter((item) => item.id !== id));
-            toast.success(toastMessage(1));
+        del(API.emergency.deleteEmergency(id)).then((res) => {
+            if (res.ok) {
+                setFilteredEmergencies(filteredEmergencies.filter((item) => item.id !== id));
+                toast.success(toastMessage(1));
+            }
         });
     };
 

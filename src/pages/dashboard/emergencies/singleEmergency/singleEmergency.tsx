@@ -3,13 +3,16 @@ import EmergencyAnswer from "../../../../components/Emergencies/EmergencyAnswer/
 import Input from "../../../../components/common/Input/Input";
 import Textarea from "../../../../components/common/Textarea/Textarea";
 import { IEmergency, JobEnum } from "../../../../interface/general";
-import { get, patch } from "../../../../utils/helpers";
+import { del, get, patch } from "../../../../utils/helpers";
 import { API } from "../../../../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../../utils/path";
 import Button from "../../../../components/common/Button/Button";
 import { useAppSelector } from "../../../../redux/hooks";
+import { toast } from "react-toastify";
+import { toastMessage } from "../../../../utils/toastMessage";
+import Modal from "../../../../components/common/Modal/Modal";
 
 const SingleEmergencyPage = () => {
     const userState = useAppSelector((state: any) => state.userReducer.user);
@@ -17,6 +20,7 @@ const SingleEmergencyPage = () => {
     const [isEditReasonRepairman, setIsEditReasonRepairman] = useState(false);
     const [reasonOperator, setReasonOperator] = useState("");
     const [reasonRepairman, setReasonRepairman] = useState("");
+    const [isDelete, setIsDelete] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -57,17 +61,35 @@ const SingleEmergencyPage = () => {
             });
     };
 
+    const deleteHandler = () => {
+        if (emergency.id) {
+            del(API.emergency.deleteEmergency(emergency.id)).then((res) => {
+                if (res.ok) {
+                    navigate(PATH.emergencies);
+                    toast.success(toastMessage(1));
+                }
+            });
+        }
+    };
+
     return (
         <div className="flex flex-col gap-16">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-bold">جزئیات خرابی "{emergency.id}"</h1>
 
-                <div className="flex gap-2">
+                <div className="flex gap-4">
                     {(userState?.job === JobEnum.ADMIN || userState?.job === JobEnum.OPERATOR) && (
                         <Link to={`${PATH.emergencies}/edit/${id}`}>
                             <Button variant="Text">ویرایش</Button>
                         </Link>
                     )}
+
+                    {userState?.job === JobEnum.ADMIN && (
+                        <Button variant="Text" onClick={() => setIsDelete(true)} className="text-red-500 hover:text-red-600">
+                            حذف
+                        </Button>
+                    )}
+
                     <Link
                         to={".."}
                         onClick={(e) => {
@@ -104,7 +126,7 @@ const SingleEmergencyPage = () => {
                     <div className="flex flex-col gap-2">
                         <span className="flex items-center justify-between">
                             <label>توضیحات مختصص</label>
-                            {userState?.job === JobEnum.REPAIRMAN && (
+                            {userState?.job === JobEnum.ADMIN && userState?.job === JobEnum.REPAIRMAN && (
                                 <div>
                                     {!isEditReasonRepairman ? (
                                         <Button variant="Text" onClick={() => setIsEditReasonRepairman(true)}>
@@ -142,6 +164,26 @@ const SingleEmergencyPage = () => {
                     </div>
                 )}
             </div>
+
+            {isDelete && (
+                <Modal title="حذف خرابی" deleteStatus onClose={() => setIsDelete(false)}>
+                    <div className="flex w-full flex-col">
+                        <p>این عمل قابل بازگشت نیست. آیا از حذف خرابی مطمئن هستید؟</p>
+                        <div className="flex gap-4 self-end">
+                            <button
+                                onClick={() => {
+                                    setIsDelete(false);
+                                }}
+                            >
+                                انصراف
+                            </button>
+                            <button onClick={deleteHandler} className="text-red-500 hover:text-red-600">
+                                حذف
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 };
