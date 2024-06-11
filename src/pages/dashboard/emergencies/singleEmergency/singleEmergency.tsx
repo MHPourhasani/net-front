@@ -58,6 +58,7 @@ const SingleEmergencyPage = () => {
                 setEmergency(data);
                 setReasonRepairman(data.reason_repairman);
                 setIsEditReasonRepairman(false);
+                toast.success(toastMessage(18));
             });
     };
 
@@ -126,7 +127,7 @@ const SingleEmergencyPage = () => {
                     <div className="flex flex-col gap-2">
                         <span className="flex items-center justify-between">
                             <label>توضیحات مختصص</label>
-                            {userState?.job === JobEnum.ADMIN && userState?.job === JobEnum.REPAIRMAN && (
+                            {(userState?.job === JobEnum.ADMIN || userState?.job === JobEnum.REPAIRMAN) && (
                                 <div>
                                     {!isEditReasonRepairman ? (
                                         <Button variant="Text" onClick={() => setIsEditReasonRepairman(true)}>

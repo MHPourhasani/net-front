@@ -7,6 +7,8 @@ import { get, patch } from "../../../../utils/helpers";
 import { DatePicker } from "mobin-datepicker";
 import { IEmergency } from "../../../../interface/general";
 import Button from "../../../../components/common/Button/Button";
+import { toast } from "react-toastify";
+import { toastMessage } from "../../../../utils/toastMessage";
 
 const EditEmergencyPage = () => {
     const [equipments, setEquipments] = useState([]);
@@ -54,6 +56,7 @@ const EditEmergencyPage = () => {
             body: JSON.stringify({ ...formData, created_at: new Date(+formData.created_at! * 1000).toISOString() })
         }).then((res) => {
             if (res.ok) {
+                toast.success(toastMessage(19));
                 navigate(-1);
             }
         });

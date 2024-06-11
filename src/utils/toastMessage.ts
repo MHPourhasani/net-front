@@ -32,6 +32,10 @@ export const toastMessage = (index: number) => {
             return "نام کاربری یا رمز عبور شتباه است.";
         case 17:
             return "کاربری با این مشخصات وجود دارد.";
+        case 18:
+            return "نظر متخصص با موفقیت ویرایش شد.";
+        case 19:
+            return "خرابی با موفقیت ویرایش شد.";
 
         default:
             break;
